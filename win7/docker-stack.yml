@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   x11:
-    image: docker:19.03.0
+    image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
       TASK_NAME: '{{.Task.Name}}'
@@ -33,7 +33,7 @@ services:
           # - engine.labels.serial_number == DW1626551800174
 
   win7:
-    image: docker:19.03.0
+    image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
       TASK_NAME: '{{.Task.Name}}'

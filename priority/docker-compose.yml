@@ -3,7 +3,7 @@ version: "3.7"
 services:
   # echo 82c4d219-0c64-47e1-8b22-3c9bb1422cae > /sys/devices/pci0000:00/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/create
   win2012:
-    image: docker:19.03.0
+    image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
       TASK_NAME: '{{.Task.Name}}'
@@ -41,7 +41,7 @@ services:
           # - node.labels.gpu.available == true
 
   workload:
-    image: docker:19.03.0
+    image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
       TASK_NAME: '{{.Task.Name}}'
@@ -58,7 +58,7 @@ services:
           # - engine.labels.serial_number == G6BN90200LR1
 
   # dxo:
-  #   image: docker:19.03.0
+  #   image: docker:19.03.12
   #   entrypoint: [sh, -c]
   #   environment:
   #     TASK_NAME: '{{.Task.Name}}'
@@ -96,7 +96,7 @@ services:
   #         - engine.labels.serial_number == G6BN90200LR1
 
   # refresh:
-  #   image: docker:19.03.0
+  #   image: docker:19.03.12
   #   entrypoint: [sh, -c]
   #   environment:
   #     TASK_NAME: '{{.Task.Name}}'
@@ -134,7 +134,7 @@ services:
   #         - engine.labels.serial_number == G6BN90200LR1
 
   # x11:
-  #   image: docker:19.03.0
+  #   image: docker:19.03.12
   #   entrypoint: [sh, -c]
   #   environment:
   #     TASK_NAME: '{{.Task.Name}}'

@@ -61,7 +61,7 @@
         "logo": "https://regmedia.co.uk/2018/10/01/ms-dos_logo.png",
         "repository": {
             "url": "https://github.com/brod-intel/cfa-demo",
-            "stackfile": "pos/docker-stack.yml"
+            "stackfile": "dos/docker-stack.yml"
         }
     },
     {
@@ -74,7 +74,7 @@
         "logo": "https://cdn.mos.cms.futurecdn.net/353dd8543cfecd6adf13de7923759524-320-80.jpg",
         "repository": {
             "url": "https://github.com/brod-intel/cfa-demo",
-            "stackfile": "pos/docker-stack.yml"
+            "stackfile": "win7/docker-stack.yml"
         }
     },
     {
