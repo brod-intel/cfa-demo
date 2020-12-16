@@ -17,11 +17,10 @@ services:
       --privileged=true
       --net=host
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /dev:/dev:shared
       -v /var/log:/var/log 
       -v /var/run/:/var/run/ 
       -v /usr/bin/docker:/usr/bin/docker
-      registry.edge.io/lab/x11:1.1.0'
+      registry.rsdecsapps.net/demo/x11:1.1.2'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -31,7 +30,7 @@ services:
         constraints: 
           - node.platform.os == linux
           - engine.labels.graphics.i915 == true
-          - engine.labels.serial_number == CZC7127XG8
+          # - engine.labels.serial_number == CZC7127XG8
           # - node.labels.gpu.available == true
 
   pos:
@@ -45,10 +44,9 @@ services:
       --name=pos 
       --net=host 
       --privileged=true 
-      -v /dev:/dev:shared
       -v /var/run/:/var/run/ 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      registry.edge.io/lab/pos:0.0.1'
+      registry.rsdecsapps.net/demo/pos:0.0.1'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -59,4 +57,4 @@ services:
           - node.platform.os == linux
           - engine.labels.graphics.i915 == true
           - engine.labels.vt_enabled == true
-          - engine.labels.serial_number == CZC7127XG8
+          # - engine.labels.serial_number == CZC7127XG8
