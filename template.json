@@ -1,7 +1,7 @@
 [
     {
         "type": 2,
-        "title": "X11 on all devices",
+        "title": "X11 on all devices with Intel GPUs",
         "description": "X11 Deployed on All GPUs",
         "note": "Deploys on all devices in the Swarm",
         "categories": ["x11"],
@@ -15,7 +15,7 @@
     {
         "type": 2,
         "title": "X11 on all devices plus YouTube Video",
-        "description": "X11 Deployed on All GPUs",
+        "description": "X11 Deployed on All devices",
         "note": "Deploys on all devices in the Swarm",
         "categories": ["x11"],
         "platform": "linux",
