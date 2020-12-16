@@ -44,6 +44,7 @@ services:
       --name=dos 
       --net=host 
       --privileged=true 
+      --rm
       -v /var/run/:/var/run/
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       registry.rsdecsapps.net/demo/dos:0.0.2'
