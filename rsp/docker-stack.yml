@@ -1,0 +1,357 @@
+# /*******************************************************************************
+#  * Copyright 2018 Dell Inc.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  * @author: Jim White, Dell
+#  * EdgeX Foundry, Delhi, version 0.7.1
+#  * added: Dec 10, 2018
+#  *******************************************************************************/
+
+version: '3.4'
+
+volumes:
+  db-data:
+  log-data:
+  consul-config:
+  consul-data:
+  consul-rrp:
+  inventory-data:
+  intel-plugin:
+
+networks:
+  edgex-network:
+  main-net:
+  internal-data-net:
+
+#################################################################
+# Edgex Delhi
+#################################################################
+services:
+
+  volume:
+    image: edgexfoundry/docker-edgex-volume:0.6.0    
+    networks:
+     - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+
+  edgex-core-consul:
+    image: consul:1.1.0
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"    
+    hostname: edgex-core-consul
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - volume
+
+  edgex-core-config-seed:
+    image: edgexfoundry/docker-core-config-seed-go:0.7.1    
+    hostname: edgex-core-config-seed
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - volume
+      - edgex-core-consul
+
+  edgex-mongo:
+    image: edgexfoundry/docker-edgex-mongo:0.6.0
+    ports:
+      - "27017:27017"    
+    hostname: edgex-mongo
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - volume
+
+  edgex-support-logging:
+    image: edgexfoundry/docker-support-logging-go:0.7.1
+    ports:
+      - "48061:48061"    
+    hostname: edgex-support-logging
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - edgex-core-config-seed
+      - edgex-mongo
+      - volume
+
+  edgex-core-metadata:
+    image: edgexfoundry/docker-core-metadata-go:0.7.1
+    ports:
+      - "48081:48081"    
+    hostname: edgex-core-metadata
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - edgex-support-logging
+
+  edgex-core-data:
+    image: edgexfoundry/docker-core-data-go:0.7.1
+    ports:
+      - "48080:48080"
+      - "5563:5563"    
+    hostname: edgex-core-data
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - edgex-support-logging
+
+  edgex-core-command:
+    image: edgexfoundry/docker-core-command-go:0.7.1
+    ports:
+      - "48082:48082"    
+    hostname: edgex-core-command
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - edgex-core-metadata
+
+  edgex-device-virtual:
+    image: edgexfoundry/docker-device-virtual:0.6.0
+    ports:
+      - "49990:49990"
+    container_name: edgex-device-virtual
+    hostname: edgex-device-virtual
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    
+  mongo-inventory:
+    image: mongo:3.4
+    networks:
+      internal-data-net:
+    logging:
+      options: {max-file: '5', max-size: 1000m}
+    volumes:
+      - "inventory-data:/data/db"   
+
+  inventory:    
+    image: rsp/inventory-service:dev
+    user: "2000:2000"
+    ports:
+      - "8090:8080"
+    networks:
+      - edgex-network
+      - internal-data-net
+      - main-net
+    logging:
+      options: {max-file: '5', max-size: 1000m}
+    environment:
+      connectionString: "mongodb://mongo-inventory:27017"
+      loggingLevel: "debug"
+      epcFilters: "[]"
+      telemetryEndpoint: "http://telemetry:8086"
+      telemetryDataStoreName: "BadgerBay"
+      responseLimit: 10000
+      secureMode: "true"
+      skipCertVerify: "true"
+      port: "8080"
+      zeroMQ: "edgex-core-data:5563"
+      cloudConnectorUrl: "http://cloud-connector:8080"
+      mappingSkuUrl: "http://product-data:8080/skus/"
+      rfidAlertURL: "http://rfid-alert:8080"
+      serviceName: "Inventory Service"
+      databaseName: "inventory?authSource=admin"
+      ageOuts: "front:10,back:60"
+      dailyInventoryPercentage: "0.01"
+      probUnreadToRead: "0.20"
+      probInStoreRead: "0.75"
+      probExitError: "0.10"
+      purgingDays: "90"
+      serverReadTimeOutSeconds: 900
+      serverWriteTimeOutSeconds: 900
+      contextEventFilterProviderID: ""
+      contraEpcPartition: 5
+      triggerRulesEndpoint: "/triggerrules"
+      triggerRulesOnFixedTags: "true"
+      newerHandheldHavePriority: "true"
+      cloudConnectorApiGatewayEndpoint: "/callwebhook"
+      rfidAlertMessageEndpoint: "/rfid-alert/alertmessage"
+      eventDestination: "https://f6wtzvncad.execute-api.us-west-2.amazonaws.com/dev/events"
+      eventDestinationAuthEndpoint: ""
+      eventDestinationAuthType: ""
+      eventDestinationClientID: ""
+      eventDestinationClientSecret: ""
+      dailyInventoryPercentageLabel: "daily_turn"
+      probUnreadToReadLabel: "becoming_readable"
+      probInStoreReadLabel: "being_read"
+      probExitErrorLabel: "exit_error"
+      endpointConnectionTimedOutSeconds: 15
+      advancedShippingNoticeFacilityID: "UNDEFINED_FACILITY"
+      rulesUrl: ""
+      cloudConnectorRetrySeconds: 30
+      proprietaryTagFormat: "header.serialNumber.productID"
+      proprietaryTagBitBoundary: "8.44.44"
+      tagURIAuthorityName: "example.com"
+      tagURIAuthorityDate: "2019-01-01"
+      dailyTurnMinimumDataPoints: 2
+      dailyTurnHistoryMaximum: 25
+      dailyTurnComputeUsingMedian: "false"
+      useComputedDailyTurnInConfidence: "true"
+      probPlugin: "true"
+    volumes:
+      - "intel-plugin:/plugin"
+
+  rfid-alert:
+    image: rsp/rfid-alert-service:dev
+    user: "2000:2000"
+    networks:
+      - main-net
+      - edgex-network
+    logging:
+      options: {max-file: '5', max-size: 1000m}
+    environment:      
+      loggingLevel: "debug"
+      telemetryEndpoint: "http://telemetry:8086"
+      telemetryDataStoreName: "BadgerBay"
+      responseLimit: 10000
+      secureMode: "true"
+      skipCertVerify: "true"
+      port: "8080"
+      zeroMQ: "edgex-core-data:5563"
+      cloudConnectorURL: "http://cloud-connector:8080"
+      mappingSkuURL : "http://product-data:8080"
+      watchdogSeconds: 120
+      serviceName: "RFID Alert service"
+      maxMissedHeartbeats: 3
+      notificationChanSize: 100
+      cloudConnectorEndpoint: "/callwebhook"
+      heartbeatEndpoint: "/heartbeat"
+      mappingSkuEndpoint: "/skus"
+      alertDestination: "https://5w1qbo67lh.execute-api.us-west-2.amazonaws.com/dev/alerts"
+      heartbeatDestination: "https://5w1qbo67lh.execute-api.us-west-2.amazonaws.com/dev/heartbeats"
+      batchSizeMax: 50
+      sendNotWhitelistedAlert: "false"
+      epcToWrin: "false"
+      alertDestinationAuthEndpoint: ""
+      alertDestinationAuthType: ""
+      alertDestinationClientID: ""
+      alertDestinationClientSecret: ""
+
+  cloud-connector:
+    image: rsp/cloud-connector-service:dev
+    user: "2000:2000"
+    networks:
+       - main-net
+    logging:
+      options:
+        max-size: "1000m"
+        max-file: "5"
+    environment:
+      loggingLevel: "debug"
+      telemetryEndpoint: "http://telemetry:8086"
+      telemetryDataStoreName: "BadgerBay"
+      responseLimit: 10000
+      secureMode: "true"
+      skipCertVerify: "true"
+      port: "8080"
+      serviceName: "Cloud Connector Service"
+      httpsProxyURL: "http://proxy-chain.intel.com:912"
+
+  product-data:
+    image: rsp/product-data-service:dev
+    user: "2000:2000"
+    ports:
+      - "8081:8080"
+    networks:
+      - internal-data-net
+      - main-net
+    logging:
+      options: {max-file: '5', max-size: 1000m}
+    environment:
+      skipSAF: "true"
+      connectionString: "mongodb://mongo-inventory:27017"
+      contextSdk: ""
+      loggingLevel: "debug"
+      telemetryEndpoint: "http://telemetry:8086"
+      telemetryDataStoreName: "BadgerBay"
+      responseLimit: 10000
+      secureMode: "true"
+      skipCertVerify: "true"
+      port: "8080"
+      serviceName: "Product Data Service"
+      databaseName: "mapping?authSource=admin"
+      zeroMQ: "edgex-core-data:5563"
+
+  mqtt-device-service:
+    image: rsp/mqtt-device-service:dev
+    ports:
+      - "49982:49982"
+    networks:
+      - edgex-network
+    depends_on:
+      - edgex-core-data
+      - edgex-core-command
+    extra_hosts:
+      - "mosquitto-server:172.17.0.1"
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+
+  # Intel Probabilistic Inventory Algorithm
+  inventory-probabilistic-algo:
+    image: rsp/inventory-probabilistic-algo:dev
+    networks:
+      - internal-data-net
+    volumes:
+      - "intel-plugin:/app"  
+
+  edgex-demo-ui:
+    image: rsp/edgex-demo-ui:dev
+    ports:
+      - "4200:4200"

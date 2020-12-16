@@ -1,0 +1,62 @@
+version: "3.7"
+
+services:
+  x11:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name x11
+      --rm
+      --env DISPLAY
+      --env VNC=true
+      --env AUTOSTART="dos=remote-viewer -f spice+unix://var/run/dos.sock"
+      --privileged=true
+      --net=host
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /dev:/dev:shared
+      -v /var/log:/var/log 
+      -v /var/run/:/var/run/ 
+      -v /usr/bin/docker:/usr/bin/docker
+      registry.edge.io/lab/x11:1.1.0'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.serial_number == 1905122097
+          # - node.labels.gpu.available == true
+
+  dos:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name=dos 
+      --net=host 
+      --privileged=true 
+      -v /dev:/dev:shared
+      -v /var/run/:/var/run/
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      registry.ori.adsdcsp.com/demo/dos:0.0.2'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.vt_enabled == true
+          - engine.labels.serial_number == 1905122097

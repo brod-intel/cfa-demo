@@ -1,0 +1,72 @@
+version: "3.7"
+
+services:
+  x11:
+    image: docker:18.09.7
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name x11
+      --rm
+      --env DISPLAY
+      --env VNC=true
+      --env AUTOSTART="android=until ls /var/run/android.sock >/dev/null 2>&1; do sleep 1; done && remote-viewer -f spice+unix://var/run/android.sock"
+      --privileged=true
+      --net=host
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /dev:/dev:shared
+      -v /var/log:/var/log 
+      -v /var/run/:/var/run/ 
+      -v /usr/bin/docker:/usr/bin/docker
+      registry.edge.io/lab/x11:1.1.0'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.serial_number == CZC7127XG8
+
+  android:
+    image: docker:18.09.7
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'apk add util-linux && 
+      UUID=$$(uuidgen) &&
+      echo $${UUID} > /sys/devices/pci0000:00/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/create &&
+      exec docker run 
+      --interactive
+      --name android
+      --rm
+      --privileged=true
+      --net=host
+      --env DISPLAY
+      --env RESOLUTION=1920x1200
+      --env RAM=4096 
+      --env ADD_FLAGS="-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/$${UUID},x-igd-opregion=on,display=on"
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /dev:/dev:shared
+      -v /var/run/:/var/run/ 
+      registry.edge.io/lab/android:0.1.1'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.vt_enabled == true
+          - engine.labels.serial_number == DW1626551800143
+          # - node.labels.gpu.available == true
+
+# docker run -d --name=android --net=host --privileged=true -v /dev:/dev -v /var/run/:/var/run/ -e VIDEO=spice -e SPICE_OPTIONS='gl=on,unix,addr=/var/run/android.sock,disable-ticketing -vga std' -e RESOLUTION=1920x1200 -e RAM=2048 rrp/android:0.1.1

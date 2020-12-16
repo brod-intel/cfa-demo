@@ -1,0 +1,167 @@
+version: "3.7"
+
+services:
+  # echo 82c4d219-0c64-47e1-8b22-3c9bb1422cae > /sys/devices/pci0000:00/0000:00:02.0/mdev_supported_types/i915-GVTg_V5_8/create
+  win2012:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      "exec docker run 
+      --interactive
+      --name winsrv2012
+      --rm
+      --privileged=true
+      --net=host
+      --label dxoCheck=true 
+      --label dxoStat=CPUPerc 
+      --label dxoCompare='echo \"$${DATA} > 20.0\" | bc -l'
+      --env DISPLAY
+      --env SMP=4,sockets=1,cores=4,threads=1
+      --env CPU=max
+      --env RAM=8192 
+      --env VIDEO=spice 
+      --env SPICE=tcp
+      --env ADD_FLAGS='-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/82c4d219-0c64-47e1-8b22-3c9bb1422cae,x-igd-opregion=on -usb -device usb-tablet'
+      --label com.docker.stack.namespace=$$(docker container inspect --format '{{index .Config.Labels \"com.docker.stack.namespace\"}}' $${TASK_NAME})
+      -v /dev:/dev:shared
+      -v /var/run/:/var/run/ 
+      registry.ori.adsdcsp.com/demo/winsrv2012:0.0.3"
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.vt_enabled == true
+          - engine.labels.serial_number == G6BN90200LR1
+          # - node.labels.gpu.available == true
+
+  workload:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run --interactive --rm --name "worker-$$(< /dev/urandom tr -dc a-z0-9 | head -c5)" --label dxoSuccess="docker update --cpus=0.01" --label dxoFailure="docker update --cpus=4" --label dxoAffect=CPUPerc --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME}) joelnb/dumb-init-alpine sh -c "yes > /dev/null"'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.serial_number == G6BN90200LR1
+
+  dxo:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run --interactive --rm --privileged --name dxo
+      -v /dev:/dev
+      -v /sys:/sys
+      -v /proc:/proc
+      -v /var/run/:/var/run/
+      -v /mnt/opt/appflows/:/appflows/
+      -e "CONFIG_FILEPATHS=/appflows"
+      -e "WATCHED_PATHS=/appflows,/home"
+      -e "IGNORED_PATHS="
+      -e "INCLUDE_PATHS="
+      -e "LOG_CURRENT_STATE=true"
+      -e "LOG_CURRENT_STATE_INTERVAL_SECONDS=10"
+      -e "AUTO_REFRESH_ENABLED=true"
+      -e "AUTO_REFRESH_CYCLE_TIME_MS=1000"
+      -e "DELAY_ON_FS_EVENT_MS=1000"
+      -e "IMMEDIATE_FS_EVENT_REACTION=false"
+      -e "DISABLE_ENV_CONFIG=false"
+      -e "LOG_IGNORED_PATHS=false"
+      -e "LOG_INCLUDED_PATHS=true"
+      -e "ENABLE_DEBUG_API=false"
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      registry.ori.adsdcsp.com/edge/dxo:0.5'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.serial_number == G6BN90200LR1
+
+  refresh:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker exec -i dxo sh -c "while true; do touch /home/te; sleep 5; done"'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.serial_number == G6BN90200LR1
+
+
+  # workload:
+  #   image: alpine:3.10
+  #   entrypoint: [sh, -c]
+  #   command: >-
+  #     'yes > /dev/null'
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 4
+  #     resources:
+  #       limits:
+  #         cpus: '0.5'
+  #         memory: 350M
+  #       reservations:
+  #         cpus: '0.1'
+  #         memory: 100M
+  #     placement:
+  #       constraints: 
+  #         - node.platform.os == linux
+  #         - engine.labels.serial_number == G6BN90200LR1
+
+  # x11:
+  #   image: docker:19.03.0
+  #   entrypoint: [sh, -c]
+  #   environment:
+  #     TASK_NAME: '{{.Task.Name}}'
+  #   command: >-
+  #     'exec docker run 
+  #     --interactive
+  #     --name x11
+  #     --rm
+  #     --env DISPLAY
+  #     --env VNC=true
+  #     --env AUTOSTART="remote-viewer -f spice+unix://var/run/win7.sock"
+  #     --privileged=true
+  #     --net=host
+  #     --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+  #     -v /dev:/dev:shared
+  #     -v /var/log:/var/log 
+  #     -v /var/run/:/var/run/ 
+  #     -v /usr/bin/docker:/usr/bin/docker
+  #     registry.edge.io/lab/x11:1.1.0'
+  #   volumes:
+  #     - /var/run:/var/run
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints: 
+  #         - node.platform.os == linux
+  #         - engine.labels.graphics.i915 == true
+  #         - engine.labels.serial_number == G6BN90200LR1

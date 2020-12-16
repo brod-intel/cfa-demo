@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  x11:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name x11
+      --rm
+      --env DISPLAY
+      --env VNC=true
+      --privileged=true
+      --net=host
+      --env AUTOSTART="video@sleep 20 && chromium-browser --no-sandbox \\'https://www.youtube.com/watch?v=NP9zZqqXJpo&list=PLk2sjg_-F-MftRXx0mAnAKURajwQsAeNr\\'"
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /var/log:/var/log 
+      -v /var/run/:/var/run/ 
+      -v /usr/bin/docker:/usr/bin/docker
+      registry.rsdecsapps.net/demo/x11:1.1.2'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: global
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          # - engine.labels.serial_number == 1905122097
+          # - node.labels.gpu.available == true

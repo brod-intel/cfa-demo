@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  x11:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name x11
+      --rm
+      --env DISPLAY
+      --env VNC=true
+      --env AUTOSTART="remote-viewer -f spice+unix://var/run/win7.sock"
+      --privileged=true
+      --net=host
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /var/log:/var/log 
+      -v /var/run/:/var/run/ 
+      -v /usr/bin/docker:/usr/bin/docker
+      registry.rsdecsapps.net/demo/x11:1.1.2'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          # - engine.labels.serial_number == DW1626551800174
+
+  win7:
+    image: docker:19.03.0
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name win7
+      --rm
+      --privileged=true
+      --net=host
+      --env DISPLAY
+      --env VNC=true
+      --env RAM=4096 
+      --env VIDEO=spice 
+      --env SPICE_OPTIONS="gl=on,unix,addr=/var/run/win7.sock,disable-ticketing -vga qxl"
+      --env ADD_FLAGS="-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/82c4d219-0c64-47e1-8b22-3c9bb1422cae,x-igd-opregion=on,display=off"
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /var/run/:/var/run/ 
+      registry.rsdecsapps.net/demo/win7:0.0.2'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.vt_enabled == true
+          # - engine.labels.serial_number == DW1626551800174
+          # - node.labels.gpu.available == true

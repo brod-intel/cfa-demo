@@ -1,0 +1,158 @@
+version: '3.3'
+
+volumes: 
+  face: null
+  shared-images:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/mnt/clusterfs/age-gender-demo'
+
+networks:
+  # context-data-net: null
+  # context-net: {attachable: true}  
+  rrp-net: {attachable: true}
+
+services:
+  # cv face recognition
+  # RabbitMQ
+  rabbit-server:
+    image: registry.edge.io/lab/rabbitmq:3.7    
+    # logging:
+    #   options: {max-file: '5', max-size: 1000m}
+    #   driver: "none"
+    networks:
+      rrp-net:
+        aliases: [rabbit-host]
+    ports: ['5672:5672']
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.serial_number == FYSH9N2
+
+  usb-rtsp:
+    image: docker:18.09.7
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name usb-rtsp
+      --rm
+      --env RTSP_RESOLUTION="640x480"
+      --env RTSP_FRAMERATE=15
+      --env INPUT="/dev/video0"
+      --network=age-gender-demo2_rrp-net
+      --network-alias usbrtsp
+      -p 8554:8554
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      --device=/dev/video0
+      registry.edge.io/lab/ullaakut/rtspatt:1.3.2'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.serial_number == FYSH9N2
+          - node.labels.usb.cameras == true
+
+  konami1:
+    image: docker:18.09.7
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name usb-rtsp
+      --rm
+      --env RTSP_RESOLUTION="640x480"
+      --env RTSP_FRAMERATE=15
+      --env INPUT="/dev/video0"
+      --network=age-gender-demo2_rrp-net
+      --network-alias konami1
+      --expose 8090
+      -v age-gender-demo2_face:/data
+      --device=/dev/dri
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      registry.edge.io/lab/age-gender:edgebuilder1
+      -d_fr GPU -d_ag GPU -n_ag 30 s_fd 50 -servicename service1 -rabbithost rabbit-host:5672 -streampath rtsp://usbrtsp:8554/live.sdp -datapath /data/facedb -serialnumber 1'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+
+  # Service that determins the ad to show
+  content-delivery-tpa:
+    image:  registry.edge.io/lab/cv-content-delivery-tpa:edgebuilder1
+    command: ["-rabbitHost","rabbit-host:5672","-cv-orchestrator-url","http://cv-orchestrator:3005"]
+    volumes:
+      - shared-images:/images
+    networks:
+      rrp-net: 
+    restart: always        
+    # depends_on:      
+    #   - cv-orchestrator-service
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+
+  # service that shows the ad
+  cv-orchestrator-service:
+    image: docker:18.09.7
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name cv-orchestrator-service
+      --rm
+      --env PORT=3005
+      --env streamerurl=http://konami1:8090/stream.mjpeg
+      --network=age-gender-demo2_rrp-net
+      --network-alias cv-orchestrator
+      --expose 3005
+      -v /mnt/clusterfs/age-gender-demo:/images:shared
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      --privileged
+      registry.edge.io/lab/cv-orchestrator:x11'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          - engine.labels.serial_number == FYSH9N2
+
+  console:
+    image: alpine:3.9
+    entrypoint: [ "tail", "-f", "/dev/null" ]
+    networks:
+      rrp-net: 
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - node.platform.os == linux

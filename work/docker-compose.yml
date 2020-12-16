@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  workload:
+    image: ubuntu:18.04
+    entrypoint: [sh, -c]
+    # command: >-
+    #   'START=$$(date +%s%N); 
+    #   sleep 4; 
+    #   END=$$(date +%s%N); 
+    #   echo > /tmp/$$(hostname)-time.txt;
+    #   echo "START: $$START" >> /tmp/$$(hostname)-time.txt; 
+    #   echo "END: $$END" >> /tmp/$$(hostname)-time.txt; 
+    #   echo $$(expr $$END - $$START) >> /tmp/$$(hostname)-time.txt'
+    command: >-
+      'START=$$(date +%s%N); 
+      sleep 4; 
+      END=$$(date +%s%N); 
+      echo "START: $$START";
+      echo "END: $$END";
+      echo $$(expr $$END - $$START);
+      echo "$$START,$$END,$$(expr $$END - $$START)" >> /tmp/timed.csv'
+    volumes:
+      - /var/log:/tmp
+    deploy:
+      mode: replicated
+      replicas: 16
+      placement:
+        constraints: 
+          - node.hostname == ubuntu-h3wwqkb6b1id2uas8zdnpb6j9b5ahfdw
+          # - node.platform.os == linux
+          # - engine.labels.graphics.i915 == true
+          # - engine.labels.serial_number == CZC7127XG8
+          # - node.labels.gpu.available == true
+      restart_policy:
+        condition: none
