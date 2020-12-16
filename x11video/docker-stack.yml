@@ -15,7 +15,7 @@ services:
       --env VNC=true
       --privileged=true
       --net=host
-      --env AUTOSTART="video@sleep 20 && chromium-browser --no-sandbox \\'https://www.youtube.com/watch?v=NP9zZqqXJpo&list=PLk2sjg_-F-MftRXx0mAnAKURajwQsAeNr\\'"
+      --env AUTOSTART="video@sleep 20 && chromium-browser --no-sandbox \\\'https://www.youtube.com/watch?v=NP9zZqqXJpo&list=PLk2sjg_-F-MftRXx0mAnAKURajwQsAeNr\\\'"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
       -v /var/run/:/var/run/ 
