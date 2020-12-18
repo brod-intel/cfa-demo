@@ -16,10 +16,12 @@ services:
       --env AUTOSTART="android=until ls /var/run/android.sock >/dev/null 2>&1; do sleep 1; done && remote-viewer -f spice+unix://var/run/android.sock"
       --privileged=true
       --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
       -v /var/run/:/var/run/ 
-      -v /usr/bin/docker:/usr/bin/docker
+      -v /usr/local/bin/docker:/usr/bin/docker
       registry.rsdecsapps.net/demo/x11:1.1.0'
     volumes:
       - /var/run:/var/run
@@ -47,6 +49,8 @@ services:
       --rm
       --privileged=true
       --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4 
       --env DISPLAY
       --env RESOLUTION=1920x1200
       --env RAM=4096 

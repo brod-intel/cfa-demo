@@ -14,6 +14,8 @@ services:
       --rm
       --privileged=true
       --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4 
       --label dxoCheck=true 
       --label dxoStat=CPUPerc 
       --label dxoCompare='echo \"$${DATA} > 20.0\" | bc -l'
@@ -152,7 +154,7 @@ services:
   #     -v /dev:/dev:shared
   #     -v /var/log:/var/log 
   #     -v /var/run/:/var/run/ 
-  #     -v /usr/bin/docker:/usr/bin/docker
+  #     -v /usr/local/bin/docker:/usr/bin/docker
   #     registry.edge.io/lab/x11:1.1.0'
   #   volumes:
   #     - /var/run:/var/run

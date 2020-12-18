@@ -16,10 +16,12 @@ services:
       --env AUTOSTART="pos=remote-viewer -f spice+unix://var/run/pos.sock"
       --privileged=true
       --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
       -v /var/run/:/var/run/ 
-      -v /usr/bin/docker:/usr/bin/docker
+      -v /usr/local/bin/docker:/usr/bin/docker
       registry.rsdecsapps.net/demo/x11:1.1.0'
     volumes:
       - /var/run:/var/run
@@ -42,7 +44,9 @@ services:
       'exec docker run 
       --interactive
       --name=pos 
-      --net=host 
+      --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4  
       --privileged=true 
       -v /var/run/:/var/run/ 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})

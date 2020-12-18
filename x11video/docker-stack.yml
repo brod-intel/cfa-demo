@@ -15,11 +15,13 @@ services:
       --env VNC=true
       --privileged=true
       --net=host
-      --env AUTOSTART="video@sleep 20 && chromium-browser --no-sandbox \\\'https://www.youtube.com/watch?v=NP9zZqqXJpo&list=PLk2sjg_-F-MftRXx0mAnAKURajwQsAeNr\\\'"
+      --dns=8.8.8.8 
+      --dns=8.8.4.4 
+      --env AUTOSTART="video@sleep 20 && chromium-browser --no-sandbox https://www.youtube.com/watch?v=NP9zZqqXJpo&list=PLk2sjg_-F-MftRXx0mAnAKURajwQsAeNr"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
       -v /var/run/:/var/run/ 
-      -v /usr/bin/docker:/usr/bin/docker
+      -v /usr/local/bin/docker:/usr/bin/docker
       registry.rsdecsapps.net/demo/x11:1.1.0'
     volumes:
       - /var/run:/var/run
