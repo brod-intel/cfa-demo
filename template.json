@@ -79,6 +79,58 @@
     },
     {
         "type": 2,
+        "title": "Google Chrome",
+        "description": "Google Chrome Demo",
+        "note": "Google Chrome Demo",
+        "categories": ["browser"],
+        "platform": "linux",
+        "logo": "https://4.bp.blogspot.com/-SAlsUK_Hwkw/TYGj8pt-kbI/AAAAAAAAAqE/blsfUwJWdbU/s1600/Google%2BChrome%2Bicon%2Bnew.png",
+        "repository": {
+            "url": "https://github.com/brod-intel/cfa-demo",
+            "stackfile": "chrome/docker-compose.yml"
+        }
+    },
+    {
+        "type": 2,
+        "title": "Zoom Meetings",
+        "description": "Zoom Meetings Demo",
+        "note": "Zoom Meetings Demo",
+        "categories": ["meetings"],
+        "platform": "linux",
+        "logo": "https://excelldesign.co.uk/wp-content/uploads/2020/04/Zoom-App-Icon-2.png",
+        "repository": {
+            "url": "https://github.com/brod-intel/cfa-demo",
+            "stackfile": "zoom/docker-compose.yml"
+        }
+    },
+    {
+        "type": 2,
+        "title": "VMware Horizon",
+        "description": "VMware Horizon Demo",
+        "note": "VMware Horizon Demo",
+        "categories": ["vdi"],
+        "platform": "linux",
+        "logo": "https://www.stephenwagner.com/wp-content/uploads/2018/08/HoirzonLogo.png",
+        "repository": {
+            "url": "https://github.com/brod-intel/cfa-demo",
+            "stackfile": "vmware/docker-compose.yml"
+        }
+    },
+    {
+        "type": 2,
+        "title": "Citrix Workspace App",
+        "description": "Citrix Workspace App Demo",
+        "note": "Citrix Workspace App Demo",
+        "categories": ["vdi"],
+        "platform": "linux",
+        "logo": "https://bretty.me.uk/wp-content/uploads/2019/03/39146.png",
+        "repository": {
+            "url": "https://github.com/brod-intel/cfa-demo",
+            "stackfile": "citrix/docker-compose.yml"
+        }
+    },
+    {
+        "type": 2,
         "title": "CV Ad Tageting",
         "description": "Deploys Intel CV Ad targeting demo in Swarm",
         "note": "Deploys Intel CV Ad targeting demo in Swarm",

@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  x11:
+    image: docker:19.03.12
+    entrypoint: [sh, -c]
+    environment:
+      TASK_NAME: '{{.Task.Name}}'
+    command: >-
+      'exec docker run 
+      --interactive
+      --name x11
+      --rm
+      --env DISPLAY
+      --env VNC=true
+      --privileged=true
+      --net=host
+      --dns=8.8.8.8 
+      --dns=8.8.4.4
+      --env AUTOSTART="chrome@docker run -it --name citrix --rm --env DISPLAY --privileged=true --net=host --dns=8.8.8.8 --dns=8.8.4.4 -v /var/log:/var/log -v /var/run/udev:/var/run/udev:shared -v /dev:/dev registry.rsdecsapps.net/demo/citrix:0.0.1"
+      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
+      -v /var/log:/var/log 
+      -v /var/run/:/var/run/ 
+      -v /usr/local/bin/docker:/usr/bin/docker
+      registry.rsdecsapps.net/demo/x11:1.1.0'
+    volumes:
+      - /var/run:/var/run
+    deploy:
+      mode: global
+      placement:
+        constraints: 
+          - node.platform.os == linux
+          - engine.labels.graphics.i915 == true
+          # - engine.labels.serial_number == 1905122097
+          # - node.labels.gpu.available == true
+          # - node.labels.usb.camera == true
