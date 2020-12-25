@@ -20,9 +20,10 @@ services:
       --dns=8.8.4.4 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
-      -v /var/run/:/var/run/ 
+      -v /run:/run 
       -v /usr/local/bin/docker:/usr/bin/docker
-      registry.rsdecsapps.net/demo/x11:1.1.0'
+      -v /dev:/dev:shared
+      registry.rsdecsapps.net/demo/x11:1.2.1'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -34,6 +35,8 @@ services:
           - engine.labels.graphics.i915 == true
           # - engine.labels.serial_number == DW1626551800174
 
+  # echo acd78537-d976-4919-b21b-73f83bfe1093 > /sys/devices/pci0000\:00/0000\:00\:02.0/mdev_supported_types/i915-GVTg_V5_4/create
+  # echo 1 > /sys/bus/pci/devices/$GVT_PCI/$GVT_GUID/remove
   win7:
     image: docker:19.03.12
     entrypoint: [sh, -c]
@@ -55,7 +58,7 @@ services:
       --env SPICE_OPTIONS="gl=on,unix,addr=/var/run/win7.sock,disable-ticketing -vga qxl"
       --env ADD_FLAGS="-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/82c4d219-0c64-47e1-8b22-3c9bb1422cae,x-igd-opregion=on,display=off"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /var/run/:/var/run/ 
+      -v /run:/run 
       registry.rsdecsapps.net/demo/win7:0.0.2'
     volumes:
       - /var/run:/var/run

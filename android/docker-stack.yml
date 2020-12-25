@@ -20,9 +20,10 @@ services:
       --dns=8.8.4.4 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
-      -v /var/run/:/var/run/ 
+      -v /run:/run 
       -v /usr/local/bin/docker:/usr/bin/docker
-      registry.rsdecsapps.net/demo/x11:1.1.0'
+      -v /dev:/dev:shared
+      registry.rsdecsapps.net/demo/x11:1.2.1'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -56,7 +57,7 @@ services:
       --env RAM=4096 
       --env ADD_FLAGS="-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/$${UUID},x-igd-opregion=on,display=on"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /var/run/:/var/run/ 
+      -v /run:/run 
       registry.rsdecsapps.net/demo/android:0.1.1'
     volumes:
       - /var/run:/var/run
@@ -71,4 +72,4 @@ services:
           - engine.labels.serial_number == DW1626551800143
           # - node.labels.gpu.available == true
 
-# docker run -d --name=android --net=host --privileged=true -v /dev:/dev -v /var/run/:/var/run/ -e VIDEO=spice -e SPICE_OPTIONS='gl=on,unix,addr=/var/run/android.sock,disable-ticketing -vga std' -e RESOLUTION=1920x1200 -e RAM=2048 rrp/android:0.1.1
+# docker run -d --name=android --net=host --privileged=true -v /dev:/dev -v /run:/run -e VIDEO=spice -e SPICE_OPTIONS='gl=on,unix,addr=/var/run/android.sock,disable-ticketing -vga std' -e RESOLUTION=1920x1200 -e RAM=2048 rrp/android:0.1.1
