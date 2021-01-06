@@ -79,6 +79,19 @@
     },
     {
         "type": 2,
+        "title": "Windows 10",
+        "description": "Deploy Windows 10 on Swarm",
+        "note": "Deploys Windows 10 on Swarm",
+        "categories": ["win"],
+        "platform": "linux",
+        "logo": "https://banner2.cleanpng.com/20180403/see/kisspng-windows-10-iot-microsoft-windows-iot-10-5ac43d72549f17.0983668915228102263466.jpg",
+        "repository": {
+            "url": "https://github.com/brod-intel/cfa-demo",
+            "stackfile": "win10/docker-compose.yml"
+        }
+    },
+    {
+        "type": 2,
         "title": "Google Chrome",
         "description": "Google Chrome Demo",
         "note": "Google Chrome Demo",

@@ -17,7 +17,7 @@ services:
       --net=host
       --dns=8.8.8.8 
       --dns=8.8.4.4
-      --env AUTOSTART="chrome@docker run -it --name zoom --rm --env DISPLAY --privileged=true --net=host --dns=8.8.8.8 --dns=8.8.4.4 -v /var/log:/var/log -v /var/run/udev:/var/run/udev:shared -v /dev:/dev registry.rsdecsapps.net/demo/zoom:0.0.1"
+      --env AUTOSTART="chrome@docker run -it --name zoom --rm --env DISPLAY --privileged=true --net=host --dns=8.8.8.8 --dns=8.8.4.4 -v /var/log:/var/log -v /run:/run -v /dev:/dev:shared registry.rsdecsapps.net/demo/zoom:0.0.1"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
       -v /run:/run 

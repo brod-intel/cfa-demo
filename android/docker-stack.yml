@@ -13,7 +13,7 @@ services:
       --rm
       --env DISPLAY
       --env VNC=true
-      --env AUTOSTART="android=until ls /var/run/android.sock >/dev/null 2>&1; do sleep 1; done && remote-viewer -f spice+unix://var/run/android.sock"
+      --env AUTOSTART="android@until ls /var/run/android.sock >/dev/null 2>&1; do sleep 1; done && remote-viewer -f spice+unix://var/run/android.sock"
       --privileged=true
       --net=host
       --dns=8.8.8.8 
@@ -72,4 +72,4 @@ services:
           - engine.labels.serial_number == DW1626551800143
           # - node.labels.gpu.available == true
 
-# docker run -d --name=android --net=host --privileged=true -v /dev:/dev -v /run:/run -e VIDEO=spice -e SPICE_OPTIONS='gl=on,unix,addr=/var/run/android.sock,disable-ticketing -vga std' -e RESOLUTION=1920x1200 -e RAM=2048 rrp/android:0.1.1
+# docker run -d --name=android --net=host --privileged=true -v /dev:/dev:shared -v /run:/run -e VIDEO=spice -e SPICE_OPTIONS='gl=on,unix,addr=/var/run/android.sock,disable-ticketing -vga std' -e RESOLUTION=1920x1200 -e RAM=2048 rrp/android:0.1.1
