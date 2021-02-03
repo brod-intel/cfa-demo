@@ -19,13 +19,13 @@ services:
       --dns=8.8.4.4 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /var/log:/var/log 
-      -v /run:/run 
+      -v /run:/run
       -v /usr/local/bin/docker:/usr/bin/docker
       -v /dev:/dev:shared
       -v /tmp:/tmp
       registry.rsdecsapps.net/demo/x11:1.2.5'
     volumes:
-      - /var/run:/var/run
+      - /run:/run
     deploy:
       mode: global
       placement:
