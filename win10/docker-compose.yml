@@ -13,6 +13,7 @@ services:
       --rm
       --privileged=true
       --net=host
+      --cap-add=ALL
       --dns=8.8.8.8 
       --dns=8.8.4.4 
       --env DISPLAY=:0
