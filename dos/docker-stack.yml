@@ -1,41 +1,6 @@
 version: "3.7"
 
 services:
-  x11:
-    image: docker:19.03.12
-    entrypoint: [sh, -c]
-    environment:
-      TASK_NAME: '{{.Task.Name}}'
-    command: >-
-      'exec docker run 
-      --interactive
-      --name x11
-      --rm
-      --env DISPLAY
-      --env VNC=true
-      --env AUTOSTART="dos=remote-viewer -f spice+unix://var/run/dos.sock"
-      --privileged=true
-      --net=host
-      --dns=8.8.8.8 
-      --dns=8.8.4.4 
-      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /var/log:/var/log 
-      -v /run:/run 
-      -v /usr/local/bin/docker:/usr/bin/docker
-      -v /dev:/dev:shared
-      registry.rsdecsapps.net/demo/x11:1.2.1'
-    volumes:
-      - /var/run:/var/run
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: 
-          - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
-          # - engine.labels.serial_number == 8CC83219S9
-          # - node.labels.gpu.available == true
-
   dos:
     image: docker:19.03.12
     entrypoint: [sh, -c]
@@ -50,17 +15,23 @@ services:
       --dns=8.8.4.4  
       --privileged=true 
       --rm
+      -e VIDEO=custom 
+      -e CUSTOM_VIDEO="-display gtk -vga qxl"
+      -e DISPLAY=':0'
       -v /run:/run
+      -v /dev:/dev
+      -v /tmp:/tmp
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      registry.rsdecsapps.net/demo/dos:0.0.2'
+      registry.rsdecsapps.net/demo/dos:0.0.5'
     volumes:
       - /var/run:/var/run
+      - /tmp:/tmp
     deploy:
       mode: replicated
       replicas: 1
       placement:
         constraints: 
           - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
-          - engine.labels.vt_enabled == true
+          # - engine.labels.graphics.i915 == true
+          # - engine.labels.vt_enabled == true
           # - engine.labels.serial_number == 8CC83219S9

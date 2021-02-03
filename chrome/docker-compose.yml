@@ -10,7 +10,7 @@ services:
       'exec docker run -d
       --name chrome
       --rm
-      --env DISPLAY=':0'
+      --env DISPLAY=":0"
       --privileged=true
       --net=host
       --dns=8.8.8.8 
@@ -24,7 +24,8 @@ services:
     volumes:
       - /var/run:/var/run
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
       placement:
         constraints: 
           - node.platform.os == linux
