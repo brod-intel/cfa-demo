@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  win7:
+  winsrv2012:
     image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
@@ -9,7 +9,7 @@ services:
     command: >-
       'exec docker run 
       --interactive
-      --name win7
+      --name winsrv2012
       --rm
       --privileged=true
       --net=host
@@ -19,14 +19,14 @@ services:
       --env VNC=true
       --env RAM=4096 
       --env VIDEO=custom 
-      --env CUSTOM_VIDEO="-display gtk,gl=on -vga none"
-      --env GPU=gvt
+      --env CUSTOM_VIDEO="-display gtk,gl=on -vga qxl"
+      --env GPU=""
       --env DISK_AHCI=false
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /run:/run
       -v /dev:/dev
       -v /tmp:/tmp
-      registry.rsdecsapps.net/demo/win7:0.0.5'
+      registry.rsdecsapps.net/demo/winsrv2012:0.0.5'
     volumes:
       - /var/run:/var/run
     deploy:

@@ -94,6 +94,19 @@
         },
         {
             "type": 2,
+            "title": "Windows Server 2012",
+            "description": "Deploy Windows Server 2012 on Swarm",
+            "note": "Deploys Windows Server 2012 on Swarm",
+            "categories": ["win"],
+            "platform": "linux",
+            "logo": "https://adaptivesolutions.com/wp-content/uploads/2016/02/windows-server-2012.jpg",
+            "repository": {
+                "url": "https://github.com/brod-intel/cfa-demo",
+                "stackfile": "winsrv2012/docker-compose.yml"
+            }
+        },
+        {
+            "type": 2,
             "title": "Google Chrome",
             "description": "Google Chrome Demo",
             "note": "Google Chrome Demo",

@@ -15,11 +15,11 @@ services:
       --net=host
       --dns=8.8.8.8 
       --dns=8.8.4.4 
-      --env DISPLAY=":0"
+      --env DISPLAY=:0
       --env VNC=true
       --env RAM=4096 
       --env VIDEO=custom 
-      --env CUSTOM_VIDEO="display gtk,gl=on -vga none"
+      --env CUSTOM_VIDEO="-display gtk,gl=on -vga none"
       --env GPU=gvt
       --env DISK_AHCI=false
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
@@ -37,5 +37,5 @@ services:
           - node.platform.os == linux
           - engine.labels.graphics.i915 == true
           - engine.labels.vt_enabled == true
-          - engine.labels.serial_number == 8CC83219S9
+          # - engine.labels.serial_number == 8CC83219S9
           # - node.labels.gpu.available == true
