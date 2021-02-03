@@ -7,7 +7,8 @@ services:
     environment:
       TASK_NAME: '{{.Task.Name}}'
     command: >-
-      'exec docker run -d
+      'exec docker run
+      --interactive
       --name vmware
       --rm
       --env DISPLAY=':0'
