@@ -1,43 +1,7 @@
 version: "3.7"
 
 services:
-  x11:
-    image: docker:19.03.12
-    entrypoint: [sh, -c]
-    environment:
-      TASK_NAME: '{{.Task.Name}}'
-    command: >-
-      'exec docker run 
-      --interactive
-      --name x11
-      --rm
-      --env DISPLAY
-      --env VNC=true
-      --env AUTOSTART="remote-viewer -f spice+unix://var/run/win10.sock"
-      --privileged=true
-      --net=host
-      --dns=8.8.8.8 
-      --dns=8.8.4.4 
-      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /var/log:/var/log 
-      -v /run:/run 
-      -v /usr/local/bin/docker:/usr/bin/docker
-      -v /dev:/dev:shared
-      registry.rsdecsapps.net/demo/x11:1.2.1'
-    volumes:
-      - /var/run:/var/run
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: 
-          - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
-          # - engine.labels.serial_number == DW1626551800174
-
-  # echo acd78537-d976-4919-b21b-73f83bfe1093 > /sys/devices/pci0000\:00/0000\:00\:02.0/mdev_supported_types/i915-GVTg_V5_4/create
-  # echo 1 > /sys/bus/pci/devices/$GVT_PCI/$GVT_GUID/remove
-  win7:
+  win10:
     image: docker:19.03.12
     entrypoint: [sh, -c]
     environment:
@@ -51,15 +15,18 @@ services:
       --net=host
       --dns=8.8.8.8 
       --dns=8.8.4.4 
-      --env DISPLAY
+      --env DISPLAY=":0"
       --env VNC=true
       --env RAM=4096 
-      --env VIDEO=spice 
-      --env SPICE_OPTIONS="gl=on,unix,addr=/var/run/win10.sock,disable-ticketing -vga qxl"
+      --env VIDEO=custom 
+      --env CUSTOM_VIDEO="display gtk,gl=on -vga none"
       --env GPU=gvt
+      --env DISK_AHCI=false
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /run:/run 
-      registry.rsdecsapps.net/demo/win10:0.0.1'
+      -v /run:/run
+      -v /dev:/dev
+      -v /tmp:/tmp
+      registry.rsdecsapps.net/demo/win10:0.0.5'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -70,5 +37,5 @@ services:
           - node.platform.os == linux
           - engine.labels.graphics.i915 == true
           - engine.labels.vt_enabled == true
-          # - engine.labels.serial_number == DW1626551800174
+          - engine.labels.serial_number == 8CC83219S9
           # - node.labels.gpu.available == true

@@ -31,7 +31,7 @@ services:
       placement:
         constraints: 
           - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
+          # - engine.labels.graphics.i915 == true
           # - engine.labels.serial_number == 1905122097
           # - node.labels.gpu.available == true
           # - node.labels.usb.camera == true

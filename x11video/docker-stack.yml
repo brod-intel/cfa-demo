@@ -23,7 +23,8 @@ services:
       -v /run:/run 
       -v /usr/local/bin/docker:/usr/bin/docker
       -v /dev:/dev:shared
-      registry.rsdecsapps.net/demo/x11:1.2.1'
+      -v /tmp:/tmp
+      registry.rsdecsapps.net/demo/x11:1.2.5'
     volumes:
       - /var/run:/var/run
     deploy:

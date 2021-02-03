@@ -1,37 +1,20 @@
 version: "3.7"
 
 services:
-  x11:
-    image: docker:19.03.12
-    entrypoint: [sh, -c]
+  citrix:
+    image: registry.rsdecsapps.net/demo/citrix:0.0.1
     environment:
-      TASK_NAME: '{{.Task.Name}}'
-    command: >-
-      'exec docker run 
-      --interactive
-      --name x11
-      --rm
-      --env DISPLAY
-      --env VNC=true
-      --privileged=true
-      --net=host
-      --dns=8.8.8.8 
-      --dns=8.8.4.4
-      --env AUTOSTART="chrome@docker run -it --name citrix --rm --env DISPLAY --privileged=true --net=host --dns=8.8.8.8 --dns=8.8.4.4 -v /var/log:/var/log -v /var/run/udev:/var/run/udev:shared -v /dev:/dev:shared registry.rsdecsapps.net/demo/citrix:0.0.1"
-      --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      -v /var/log:/var/log 
-      -v /run:/run 
-      -v /usr/local/bin/docker:/usr/bin/docker
-      -v /dev:/dev:shared
-      registry.rsdecsapps.net/demo/x11:1.2.1'
+      DISPLAY: ":0"
     volumes:
-      - /var/run:/var/run
+      - /run:/run
+      - /var/log:/var/log
+      - /dev:/dev:shared
+      - /tmp:/tmp
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
       placement:
         constraints: 
           - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
-          # - engine.labels.serial_number == 1905122097
-          # - node.labels.gpu.available == true
-          # - node.labels.usb.camera == true
+          # - engine.labels.graphics.i915 == true
+          # - engine.labels.serial_number == 8CC83219S9

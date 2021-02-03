@@ -17,7 +17,7 @@ services:
       --rm
       -e VIDEO=custom 
       -e CUSTOM_VIDEO="-display gtk -vga qxl"
-      -e DISPLAY=':0'
+      -e DISPLAY=":0"
       -v /run:/run
       -v /dev:/dev
       -v /tmp:/tmp
@@ -33,5 +33,5 @@ services:
         constraints: 
           - node.platform.os == linux
           # - engine.labels.graphics.i915 == true
-          # - engine.labels.vt_enabled == true
+          - engine.labels.vt_enabled == true
           # - engine.labels.serial_number == 8CC83219S9
