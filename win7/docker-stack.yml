@@ -15,8 +15,8 @@ services:
       --net=host
       --dns=8.8.8.8 
       --dns=8.8.4.4 
-      --env DISPLAY=":0"
-      --env VNC=true
+      --env DISPLAY=:0
+      --env SMP="4,sockets=1,cores=4,threads=1"
       --env RAM=4096 
       --env VIDEO=custom 
       --env CUSTOM_VIDEO="-display gtk,gl=on -vga none"
