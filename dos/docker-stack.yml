@@ -15,9 +15,11 @@ services:
       --dns=8.8.4.4  
       --privileged=true 
       --rm
-      -e VIDEO=custom 
-      -e CUSTOM_VIDEO="-display gtk -vga qxl"
-      -e DISPLAY=":0"
+      --env VIDEO=custom 
+      --env CUSTOM_VIDEO="-display gtk -vga cirrus"
+      --env DISPLAY=":0"
+      --env AUDIO=none
+      --env ADD_FLAGS="-soundhw sb16,adlib,pcspk -audiodev pa,id=sound0,server=unix:/tmp/pulse-sock -rtc base=localtime "
       -v /run:/run
       -v /dev:/dev
       -v /tmp:/tmp

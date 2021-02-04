@@ -22,6 +22,7 @@ services:
       --env CUSTOM_VIDEO="-display gtk,gl=on -vga qxl"
       --env GPU=""
       --env DISK_AHCI=false
+      --env ADD_FLAGS="-audiodev pa,id=sound0,server=unix:/tmp/pulse-sock"
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
       -v /run:/run
       -v /dev:/dev
