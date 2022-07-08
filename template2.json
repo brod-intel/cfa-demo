@@ -184,7 +184,7 @@
             }
         },
 				{
-					"type": 3,
+					"type": 2,
 					"title": "Zero Linux Console",
 					"description": "Deploys a ZOS Console to manage the system.",
 					"note": "Deploys a ZOS Console to manage the system.",
@@ -199,7 +199,7 @@
 					}
 				},
 				{
-					"type": 3,
+					"type": 2,
 					"title": "Zero Linux SSH Console",
 					"description": "Deploys a ZOS SSH Console to manage the system.",
 					"note": "Deploys a ZOS SSH Console to manage the system.",
@@ -214,7 +214,7 @@
 					}
 				},
 				{
-					"type": 3,
+					"type": 2,
 					"title": "X11 Console",
 					"description": "Deploys a X11 Console to manage the system.",
 					"note": "Deploys a X11 Console to manage the system.",
