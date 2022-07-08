@@ -183,6 +183,51 @@
                 "stackfile": "rsp/docker-stack.yml"
             }
         },
+				{
+					"type": 3,
+					"title": "Zero Linux Console",
+					"description": "Deploys a ZOS Console to manage the system.",
+					"note": "Deploys a ZOS Console to manage the system.",
+					"categories": [
+						"Zero Linux"
+					],
+					"platform": "linux",
+					"logo": "",
+					"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "zos/console/docker-compose.yml"
+					}
+				},
+				{
+					"type": 3,
+					"title": "Zero Linux SSH Console",
+					"description": "Deploys a ZOS SSH Console to manage the system.",
+					"note": "Deploys a ZOS SSH Console to manage the system.",
+					"categories": [
+						"Zero Linux"
+					],
+					"platform": "linux",
+					"logo": "",
+					"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "zos/ssh/docker-compose.yml"
+					}
+				},
+				{
+					"type": 3,
+					"title": "X11 Console",
+					"description": "Deploys a X11 Console to manage the system.",
+					"note": "Deploys a X11 Console to manage the system.",
+					"categories": [
+						"Zero Linux"
+					],
+					"platform": "linux",
+					"logo": "",
+					"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "x11/docker-compose.yml"
+					}
+				},
         {
 			"type": 1,
 			"title": "Registry",

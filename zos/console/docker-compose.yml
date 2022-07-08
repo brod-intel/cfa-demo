@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  core:
+    image: linuxkit/getty:v0.8
+    ipc: host
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: always
+    userns_mode: host
+    volumes:
+      - /hostroot:/hostroot
+      - /hostroot/var/persist/etc/issue:/etc/motd
+      - /hostroot/etc/profile.d:/etc/profile.d
+      - /hostroot/etc/getty.shadow:/etc/shadow
+      - /hostroot/etc/sshd.passwd:/etc/passwd
+      - /hostroot/etc/sshd.group:/etc/group
+      - /hostroot/var/persist/etc/hostname:/etc/hostname
+      - /hostroot/var/persist/home:/home
+      - /hostroot/run:/run
+      - /hostroot/tmp:/tmp
+      - /hostroot/usr/bin/ctr:/usr/bin/ctr
+      - /hostroot/usr/bin/runc:/usr/bin/runc
+      - /hostroot/containers:/containers
+      - /hostroot/var/log:/var/log
+      - /hostroot/var/lib/containerd:/var/lib/containerd
+      - /hostroot/dev:/dev
+      - /hostroot/sys:/sys
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
