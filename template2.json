@@ -1,234 +1,234 @@
 {
 	"version": "2",
 	"templates": [
-        {
-            "type": 2,
-            "title": "X11 on all devices with Intel GPUs",
-            "description": "X11 Deployed on All GPUs",
-            "note": "Deploys on all devices in the Swarm",
-            "categories": ["x11"],
-            "platform": "linux",
-            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "x11/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "X11 on all devices plus YouTube Video",
-            "description": "X11 Deployed on All devices",
-            "note": "Deploys on all devices in the Swarm",
-            "categories": ["x11"],
-            "platform": "linux",
-            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "x11video/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "DXO Priority Demo",
-            "description": "Demonstrate how DXO prioritizes workloads",
-            "note": "DXO Priority Demo",
-            "categories": ["dxo"],
-            "platform": "linux",
-            "logo": "https://www.servethehome.com/wp-content/uploads/2020/09/New-2020-Intel-Logo-Blue-Background.jpg",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "priority/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Point of Sales",
-            "description": "Deploys Unicenta on VM running in Swarm",
-            "note": "Deploys Unicenta on VM running in Swarm",
-            "categories": ["pos"],
-            "platform": "linux",
-            "logo": "https://www.saashub.com/images/app/service_logos/6/33efbb5834be/large.png?1526996441",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "pos/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "DOS",
-            "description": "Doom running on DOS",
-            "note": "Deploys DOS on Swarm",
-            "categories": ["dos"],
-            "platform": "linux",
-            "logo": "https://regmedia.co.uk/2018/10/01/ms-dos_logo.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "dos/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Windows 7",
-            "description": "Deploy Windows 7 on Swarm",
-            "note": "Deploys Windows 7 on Swarm",
-            "categories": ["win"],
-            "platform": "linux",
-            "logo": "https://cdn.mos.cms.futurecdn.net/353dd8543cfecd6adf13de7923759524-320-80.jpg",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "win7/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Windows 10",
-            "description": "Deploy Windows 10 on Swarm",
-            "note": "Deploys Windows 10 on Swarm",
-            "categories": ["win"],
-            "platform": "linux",
-            "logo": "https://banner2.cleanpng.com/20180403/see/kisspng-windows-10-iot-microsoft-windows-iot-10-5ac43d72549f17.0983668915228102263466.jpg",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "win10/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Windows Server 2012",
-            "description": "Deploy Windows Server 2012 on Swarm",
-            "note": "Deploys Windows Server 2012 on Swarm",
-            "categories": ["win"],
-            "platform": "linux",
-            "logo": "https://adaptivesolutions.com/wp-content/uploads/2016/02/windows-server-2012.jpg",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "winsrv2012/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Google Chrome",
-            "description": "Google Chrome Demo",
-            "note": "Google Chrome Demo",
-            "categories": ["browser"],
-            "platform": "linux",
-            "logo": "https://4.bp.blogspot.com/-SAlsUK_Hwkw/TYGj8pt-kbI/AAAAAAAAAqE/blsfUwJWdbU/s1600/Google%2BChrome%2Bicon%2Bnew.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "chrome/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Zoom Meetings",
-            "description": "Zoom Meetings Demo",
-            "note": "Zoom Meetings Demo",
-            "categories": ["meetings"],
-            "platform": "linux",
-            "logo": "https://excelldesign.co.uk/wp-content/uploads/2020/04/Zoom-App-Icon-2.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "zoom/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "VMware Horizon",
-            "description": "VMware Horizon Demo",
-            "note": "VMware Horizon Demo",
-            "categories": ["vdi"],
-            "platform": "linux",
-            "logo": "https://www.stephenwagner.com/wp-content/uploads/2018/08/HoirzonLogo.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "vmware/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "Citrix Workspace App",
-            "description": "Citrix Workspace App Demo",
-            "note": "Citrix Workspace App Demo",
-            "categories": ["vdi"],
-            "platform": "linux",
-            "logo": "https://bretty.me.uk/wp-content/uploads/2019/03/39146.png",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "citrix/docker-compose.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "CV Ad Tageting",
-            "description": "Deploys Intel CV Ad targeting demo in Swarm",
-            "note": "Deploys Intel CV Ad targeting demo in Swarm",
-            "categories": ["cv"],
-            "platform": "linux",
-            "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhiLhp4d9KXtxShTutif-oIT-MU6Nzcqn35FHGs1iGQfNU3dZ",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "age-gender-recognition/docker-stack.yml"
-            }
-        },
-        {
-            "type": 2,
-            "title": "RSP w/ EdgeX",
-            "description": "Deploys Intel RSP with EdgeX in Swarm",
-            "note": "Deploys Intel RSP with EdgeX in Swarm",
-            "categories": ["rfid"],
-            "platform": "linux",
-            "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhiLhp4d9KXtxShTutif-oIT-MU6Nzcqn35FHGs1iGQfNU3dZ",
-            "repository": {
-                "url": "https://github.com/brod-intel/cfa-demo",
-                "stackfile": "rsp/docker-stack.yml"
-            }
-        },
-				{
-					"type": 3,
-					"title": "Zero Linux Console",
-					"description": "Deploys a ZOS Console to manage the system.",
-					"note": "Deploys a ZOS Console to manage the system.",
-					"categories": [
-						"Zero Linux"
-					],
-					"platform": "linux",
-					"logo": "",
-					"repository": {
+		{
+				"type": 2,
+				"title": "X11 on all devices with Intel GPUs",
+				"description": "X11 Deployed on All GPUs",
+				"note": "Deploys on all devices in the Swarm",
+				"categories": ["x11"],
+				"platform": "linux",
+				"logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
+				"repository": {
 						"url": "https://github.com/brod-intel/cfa-demo",
-						"stackfile": "zos/console/docker-compose.yml"
-					}
-				},
-				{
-					"type": 3,
-					"title": "Zero Linux SSH Console",
-					"description": "Deploys a ZOS SSH Console to manage the system.",
-					"note": "Deploys a ZOS SSH Console to manage the system.",
-					"categories": [
-						"Zero Linux"
-					],
-					"platform": "linux",
-					"logo": "",
-					"repository": {
+						"stackfile": "x11/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "X11 on all devices plus YouTube Video",
+				"description": "X11 Deployed on All devices",
+				"note": "Deploys on all devices in the Swarm",
+				"categories": ["x11"],
+				"platform": "linux",
+				"logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
+				"repository": {
 						"url": "https://github.com/brod-intel/cfa-demo",
-						"stackfile": "zos/ssh/docker-compose.yml"
-					}
-				},
-				{
-					"type": 3,
-					"title": "X11 Console",
-					"description": "Deploys a X11 Console to manage the system.",
-					"note": "Deploys a X11 Console to manage the system.",
-					"categories": [
-						"Zero Linux"
-					],
-					"platform": "linux",
-					"logo": "",
-					"repository": {
+						"stackfile": "x11video/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "DXO Priority Demo",
+				"description": "Demonstrate how DXO prioritizes workloads",
+				"note": "DXO Priority Demo",
+				"categories": ["dxo"],
+				"platform": "linux",
+				"logo": "https://www.servethehome.com/wp-content/uploads/2020/09/New-2020-Intel-Logo-Blue-Background.jpg",
+				"repository": {
 						"url": "https://github.com/brod-intel/cfa-demo",
-						"stackfile": "x11/docker-compose.yml"
-					}
-				},
-        {
+						"stackfile": "priority/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Point of Sales",
+				"description": "Deploys Unicenta on VM running in Swarm",
+				"note": "Deploys Unicenta on VM running in Swarm",
+				"categories": ["pos"],
+				"platform": "linux",
+				"logo": "https://www.saashub.com/images/app/service_logos/6/33efbb5834be/large.png?1526996441",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "pos/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "DOS",
+				"description": "Doom running on DOS",
+				"note": "Deploys DOS on Swarm",
+				"categories": ["dos"],
+				"platform": "linux",
+				"logo": "https://regmedia.co.uk/2018/10/01/ms-dos_logo.png",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "dos/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Windows 7",
+				"description": "Deploy Windows 7 on Swarm",
+				"note": "Deploys Windows 7 on Swarm",
+				"categories": ["win"],
+				"platform": "linux",
+				"logo": "https://cdn.mos.cms.futurecdn.net/353dd8543cfecd6adf13de7923759524-320-80.jpg",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "win7/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Windows 10",
+				"description": "Deploy Windows 10 on Swarm",
+				"note": "Deploys Windows 10 on Swarm",
+				"categories": ["win"],
+				"platform": "linux",
+				"logo": "https://banner2.cleanpng.com/20180403/see/kisspng-windows-10-iot-microsoft-windows-iot-10-5ac43d72549f17.0983668915228102263466.jpg",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "win10/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Windows Server 2012",
+				"description": "Deploy Windows Server 2012 on Swarm",
+				"note": "Deploys Windows Server 2012 on Swarm",
+				"categories": ["win"],
+				"platform": "linux",
+				"logo": "https://adaptivesolutions.com/wp-content/uploads/2016/02/windows-server-2012.jpg",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "winsrv2012/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Google Chrome",
+				"description": "Google Chrome Demo",
+				"note": "Google Chrome Demo",
+				"categories": ["browser"],
+				"platform": "linux",
+				"logo": "https://4.bp.blogspot.com/-SAlsUK_Hwkw/TYGj8pt-kbI/AAAAAAAAAqE/blsfUwJWdbU/s1600/Google%2BChrome%2Bicon%2Bnew.png",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "chrome/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Zoom Meetings",
+				"description": "Zoom Meetings Demo",
+				"note": "Zoom Meetings Demo",
+				"categories": ["meetings"],
+				"platform": "linux",
+				"logo": "https://excelldesign.co.uk/wp-content/uploads/2020/04/Zoom-App-Icon-2.png",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "zoom/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "VMware Horizon",
+				"description": "VMware Horizon Demo",
+				"note": "VMware Horizon Demo",
+				"categories": ["vdi"],
+				"platform": "linux",
+				"logo": "https://www.stephenwagner.com/wp-content/uploads/2018/08/HoirzonLogo.png",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "vmware/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "Citrix Workspace App",
+				"description": "Citrix Workspace App Demo",
+				"note": "Citrix Workspace App Demo",
+				"categories": ["vdi"],
+				"platform": "linux",
+				"logo": "https://bretty.me.uk/wp-content/uploads/2019/03/39146.png",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "citrix/docker-compose.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "CV Ad Tageting",
+				"description": "Deploys Intel CV Ad targeting demo in Swarm",
+				"note": "Deploys Intel CV Ad targeting demo in Swarm",
+				"categories": ["cv"],
+				"platform": "linux",
+				"logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhiLhp4d9KXtxShTutif-oIT-MU6Nzcqn35FHGs1iGQfNU3dZ",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "age-gender-recognition/docker-stack.yml"
+				}
+		},
+		{
+				"type": 2,
+				"title": "RSP w/ EdgeX",
+				"description": "Deploys Intel RSP with EdgeX in Swarm",
+				"note": "Deploys Intel RSP with EdgeX in Swarm",
+				"categories": ["rfid"],
+				"platform": "linux",
+				"logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwhiLhp4d9KXtxShTutif-oIT-MU6Nzcqn35FHGs1iGQfNU3dZ",
+				"repository": {
+						"url": "https://github.com/brod-intel/cfa-demo",
+						"stackfile": "rsp/docker-stack.yml"
+				}
+		},
+		{
+			"type": 3,
+			"title": "Zero Linux Console",
+			"description": "Deploys a ZOS Console to manage the system.",
+			"note": "Deploys a ZOS Console to manage the system.",
+			"categories": [
+				"Zero Linux"
+			],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "zos/console/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "Zero Linux SSH Console",
+			"description": "Deploys a ZOS SSH Console to manage the system.",
+			"note": "Deploys a ZOS SSH Console to manage the system.",
+			"categories": [
+				"Zero Linux"
+			],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "zos/ssh/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "X11 Console",
+			"description": "Deploys a X11 Console to manage the system.",
+			"note": "Deploys a X11 Console to manage the system.",
+			"categories": [
+				"Zero Linux"
+			],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "x11/docker-compose.yml"
+			}
+		},
+		{
 			"type": 1,
 			"title": "Registry",
 			"description": "Docker image registry",
