@@ -230,7 +230,7 @@
 				},
         {
 			"type": 1,
-			"title": "Registrfdy",
+			"title": "Registry",
 			"description": "Docker image registry",
 			"categories": [
 				"docker"
