@@ -15,6 +15,7 @@ services:
       --dns=8.8.4.4  
       --privileged=true 
       --rm
+      --env NETWORK=none
       --env VIDEO=custom 
       --env CUSTOM_VIDEO="-display gtk -vga cirrus"
       --env DISPLAY=":0"
