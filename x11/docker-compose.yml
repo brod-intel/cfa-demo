@@ -13,9 +13,9 @@ services:
     restart: always
     userns_mode: host
     volumes:
-      - /dev:/dev:shared
+      - /hostroot/dev:/dev:shared
       - /var/log:/var/log 
-      - /var/run/:/var/run/ 
+      - /run/:/run/ 
     logging:
       driver: "json-file"
       options:
