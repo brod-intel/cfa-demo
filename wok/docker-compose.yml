@@ -4,8 +4,8 @@ services:
   core:
     image: brod55/wok:2.5.0
     environment:
-      - USERNAME='wok-admin'
-      - HASHPASS='$6$Ebs1dF5aSem0wDys$DlYe0a/hKW3hD7rNb/LkI2irbIBhgckLnrGICCHUWrB3DiJyvXENhfMB8wLD1EJGg3MWO3w6uWEqNAuitVJPx0'
+      - USERNAME: 'wok-admin'
+      - HASHPASS: '$6$Ebs1dF5aSem0wDys$DlYe0a/hKW3hD7rNb/LkI2irbIBhgckLnrGICCHUWrB3DiJyvXENhfMB8wLD1EJGg3MWO3w6uWEqNAuitVJPx0'
     ipc: host
     network_mode: host
     pid: host
