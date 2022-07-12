@@ -276,6 +276,18 @@
 			}
 		},
 		{
+			"type": 3,
+			"title": "ACE",
+			"description": "Autonomous Clustering for the Edge.",
+			"note": "Deploys Autonomous Clustering for the Edge.",
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "ace/docker-compose.yml"
+			}
+		},
+		{
 			"type": 1,
 			"title": "Registry",
 			"description": "Docker image registry",
