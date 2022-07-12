@@ -67,6 +67,19 @@
 				}
 		},
 		{
+			"type": 3,
+			"title": "DOS",
+			"description": "Doom running on DOS",
+			"note": "Deploys DOS on Docker",
+			"categories": ["dos"],
+			"platform": "linux",
+			"logo": "https://regmedia.co.uk/2018/10/01/ms-dos_logo.png",
+			"repository": {
+					"url": "https://github.com/brod-intel/cfa-demo",
+					"stackfile": "dos/docker-compose.yml"
+			}
+	},
+		{
 				"type": 2,
 				"title": "Windows 7",
 				"description": "Deploy Windows 7 on Swarm",
@@ -226,6 +239,40 @@
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "x11/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "WOK",
+			"description": "Headless VM Management for KVM.",
+			"note": "Deploys Headless VM Management for KVM.",
+			"categories": [
+				"Zero Linux"
+			],
+			"env": [{
+				"name": "USERNAME",
+				"label": "WOK Admin Password"
+			},{
+				"name": "HASHPASS",
+				"label": "HASH Password: mkpasswd -m sha-512"
+			}],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "wok/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "ESP",
+			"description": "Edge Software Provisionor.",
+			"note": "Deploys Edge Software Provisionor.",
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "esp/docker-compose.yml"
 			}
 		},
 		{

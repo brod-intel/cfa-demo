@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  dos:
+    image: registry.rsdecsapps.net/demo/dos:0.0.5
+    environment:
+      - NETWORK: "none"
+      - VIDEO: "custom"
+      - CUSTOM_VIDEO: "-display gtk -vga cirrus"
+      - DISPLAY: ":0"
+      - AUDIO: "none"
+      - ADD_FLAGS: "-soundhw sb16,adlib,pcspk -audiodev pa,id=sound0,server=unix:/tmp/pulse-sock -rtc base=localtime "
+    name: dos
+    network_mode: host
+    privileged: true
+    restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - /run:/run
+      - /dev:/dev
+      - /tmp:/tmp
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"

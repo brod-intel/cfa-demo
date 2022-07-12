@@ -1,0 +1,293 @@
+---
+
+# Copyright (C) 2019 Intel Corporation
+# SPDX-License-Identifier: BSD-3-Clause
+
+version: '3'
+
+networks:
+  gitea:
+    external: false
+
+services:
+  core:
+    image: builder-core
+    environment:
+      - BUILDER_PATH=${PWD}
+      - PATH=${PWD}:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ipc: host
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: always
+    userns_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:${PWD}/root
+      - ./conf:${PWD}/conf:shared
+      - ./data:${PWD}/data:shared
+      - ./dockerfiles/uos:${PWD}/dockerfiles/uos:shared
+      - ./output:${PWD}/output:shared
+      - ./template:${PWD}/template:shared
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  web:
+    image: builder-web
+    restart: always
+    environment:
+      - CN=edgebuilder.local
+      - O=edgebuilder
+      - OU=edgebuilder
+      - C=US
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      # Don't make these read-only, or else docker will fail to mount
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - ./data/etc/ssl/private:/etc/ssl/private
+      - ./data/usr/share/nginx/html:/usr/share/nginx/html:shared
+      - ./data/srv/tftp:/usr/share/nginx/html/tftp:shared
+      - ./data/srv/tftp/pxelinux.cfg/:/usr/share/nginx/html/tftp/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg_legacy/:/usr/share/nginx/html/tftp/legacy/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg/:/usr/share/nginx/html/tftp/efi32/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg/:/usr/share/nginx/html/tftp/efi64/pxelinux.cfg/
+      - ./data/srv/tftp/images/uos/:/usr/share/nginx/html/tftp/legacy/images/uos/
+      - ./data/srv/tftp/images/uos/:/usr/share/nginx/html/tftp/efi32/images/uos/
+      - ./data/srv/tftp/images/uos/:/usr/share/nginx/html/tftp/efi64/images/uos/
+      - ./data/usr/share/nginx/html/web-cert:/etc/ssl/cert
+      - ./template/nginx:/usr/share/nginx/template
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  certbot:
+    image: builder-certbot
+    restart: on-failure
+    environment:
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ports: []
+    volumes:
+      - ./conf:/opt/esp/conf
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+      - ./data/certbot/lib:/var/lib/letsencrypt
+      - ./data/etc/ssl/private:/etc/ssl/private
+      - ./data/usr/share/nginx/html/web-cert:/etc/ssl/cert
+    depends_on: 
+      - web
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  dnsmasq:
+    image: builder-dnsmasq
+    restart: always
+    environment:
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    volumes:
+      - ./template/pxe_bg.png:/srv/tftp/pxe_bg.png
+      - ./template/pxe_bg.png:/srv/tftp/legacy/pxe_bg.png
+      - ./template/pxe_bg.png:/srv/tftp/efi32/pxe_bg.png
+      - ./template/pxe_bg.png:/srv/tftp/efi64/pxe_bg.png
+      - ./data/srv/tftp/images:/srv/tftp/images
+      - ./data/srv/tftp/images:/srv/tftp/legacy/images
+      - ./data/srv/tftp/images:/srv/tftp/efi32/images
+      - ./data/srv/tftp/images:/srv/tftp/efi64/images
+      - ./data/srv/tftp/pxelinux.cfg/:/srv/tftp/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg_legacy/:/srv/tftp/legacy/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg/:/srv/tftp/efi32/pxelinux.cfg/
+      - ./data/srv/tftp/pxelinux.cfg/:/srv/tftp/efi64/pxelinux.cfg/
+      - ./data/srv/tftp/:/usr/share/nginx/html/tftp/:shared
+      - ./data/etc:/etc/dnsmasq:shared
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  registry-mirror:
+    image: registry:2
+    restart: always
+    environment:
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ports:
+      - 5557:5000
+    volumes:
+      - ./template/registry/:/etc/docker/registry/:shared
+      - ./data/var/lib/registry:/var/lib/registry
+    command: "/etc/docker/registry/config.yml"
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  squid:
+    image: builder-squid
+    restart: always
+    environment:
+      - CN=squid.local
+      - O=squid
+      - OU=squid
+      - C=US
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ports:
+      - 3128:3128
+      - 4128:4128
+    volumes:
+      - ./template/squid:/etc/squid/template
+      - ./data/var/cache/squid:/var/spool/squid
+      - ./data/var/log/squid:/var/log/squid
+      - ./data/usr/share/nginx/html/squid-cert:/etc/squid-cert
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  mirror:
+    image: builder-gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - DISABLE_REGISTRATION=true
+      - DEFAULT_PRIVATE=public
+      - ENABLE_PUSH_CREATE_USER=true
+      - ENABLE_PUSH_CREATE_ORG=true
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - ./data/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3003:3000"
+      - "222:22"
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  smb:
+    image: builder-smb
+    restart: always
+    environment:
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ports:
+      - 445:445
+    volumes:
+      - ./data/usr/share/nginx/html/smb:/smbshare
+    tty: true
+    # network_mode: bridge
+    depends_on: 
+      - core
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+
+  dyn-profile:
+    image: builder-dyn-profile
+    ports:
+      - 8580:8080
+    depends_on:
+      - web
+    volumes:
+      - ./conf:/conf:shared
+      - ./data/dyn-profile:/data
+    environment:
+      - host_ip=${HOST_IP:-}
+      - dyn_url=${DYN_URL:-}
+      - dyn_url_user=${DYN_URL_USER:-}
+      - dyn_url_token=${DYN_URL_TOKEN:-}
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
