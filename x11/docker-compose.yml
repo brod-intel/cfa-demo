@@ -15,7 +15,8 @@ services:
     volumes:
       - /hostroot/dev:/dev:shared
       - /var/log:/var/log 
-      - /run/:/run/ 
+      - /run/:/run/
+      - /tmp/:/tmp/
     logging:
       driver: "json-file"
       options:
