@@ -2,7 +2,7 @@ version: '3'
 
 services:
   core:
-    image: registry.rsdecsapps.net/demo/x11:1.2.5
+    image: brodintel/x11:1.5.0
     environment:
       - DISPLAY
       - VNC=true
