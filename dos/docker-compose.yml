@@ -9,7 +9,7 @@ services:
       - CUSTOM_VIDEO=-display gtk -vga cirrus
       - DISPLAY=":0"
       - AUDIO=none
-      - ADD_FLAGS=-soundhw\ sb16,adlib,pcspk\ -audiodev\ pa,id=sound0,server=unix:/tmp/pulse-sock\ -rtc\ base=localtime
+      - ADD_FLAGS=-soundhw sb16,adlib,pcspk -audiodev pa,id=sound0,server=unix:/tmp/pulse-sock -rtc base=localtime
     network_mode: host
     privileged: true
     restart: always
