@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   dos:
-    image: registry.rsdecsapps.net/demo/dos:0.0.5
+    image: brodintel/dos:0.0.5
     environment:
       - NETWORK=none
       - VIDEO=custom
