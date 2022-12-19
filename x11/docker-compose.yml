@@ -17,6 +17,7 @@ services:
       - /var/log:/var/log 
       - /run/:/run/
       - /tmp/:/tmp/
+      - /lib/modules:/lib/modules
     logging:
       driver: "json-file"
       options:
