@@ -12,21 +12,24 @@ services:
     volumes:
       - /hostroot:/hostroot
       - /hostroot/var/persist/etc/issue:/etc/motd
-      - /hostroot/etc/profile.d:/etc/profile.d
+      - /etc/profile.d:/etc/profile.d
       - /hostroot/etc/getty.shadow:/etc/shadow
       - /hostroot/etc/sshd.passwd:/etc/passwd
       - /hostroot/etc/sshd.group:/etc/group
-      - /hostroot/var/persist/etc/hostname:/etc/hostname
-      - /hostroot/var/persist/home:/home
-      - /hostroot/run:/run
-      - /hostroot/tmp:/tmp
+      - /etc/hostname:/etc/hostname
+      - /home:/home
+      - /run:/run
+      - /tmp:/tmp
       - /hostroot/usr/bin/ctr:/usr/bin/ctr
       - /hostroot/usr/bin/runc:/usr/bin/runc
       - /hostroot/containers:/containers
-      - /hostroot/var/log:/var/log
+      - /var/log:/var/log
+      - /hostroot/var/log:/var/log/hostroot/
       - /hostroot/var/lib/containerd:/var/lib/containerd
-      - /hostroot/dev:/dev
-      - /hostroot/sys:/sys
+      - /dev:/dev
+      - /sys:/sys
+    cap_add:
+      - ALL
     logging:
       driver: "json-file"
       options:
