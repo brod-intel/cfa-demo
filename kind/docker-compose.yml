@@ -8,8 +8,8 @@ services:
   core:
     image: brodintel/kind-core:v0.1
     environment:
-      - UUID=
-      - TOKEN=
+      - UUID=${UUID}
+      - TOKEN=${TOKEN}
     network_mode: host
     privileged: true
     restart: always
