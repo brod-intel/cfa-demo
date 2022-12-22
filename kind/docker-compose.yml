@@ -1,5 +1,9 @@
 version: '3'
 
+volumes:
+  kind_data:
+    driver: local
+
 services:
   core:
     image: brodintel/kind-core:v0.1
@@ -11,6 +15,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - kind_data:/root
     logging:
       driver: "json-file"
       options:
