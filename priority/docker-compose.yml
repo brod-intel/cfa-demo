@@ -28,7 +28,7 @@ services:
       --env ADD_FLAGS='-device vfio-pci,sysfsdev=/sys/devices/pci0000:00/0000:00:02.0/82c4d219-0c64-47e1-8b22-3c9bb1422cae,x-igd-opregion=on -usb -device usb-tablet'
       --label com.docker.stack.namespace=$$(docker container inspect --format '{{index .Config.Labels \"com.docker.stack.namespace\"}}' $${TASK_NAME})
       -v /run:/run 
-      registry.ori.adsdcsp.com/demo/winsrv2012:0.0.3"
+      brodintel/winsrv2012:0.0.3"
     volumes:
       - /var/run:/var/run
     deploy:
