@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   zoom:
-    image: registry.rsdecsapps.net/demo/zoom:0.0.1
+    image: brodintel/zoom:0.0.1
     environment:
       DISPLAY: ":0"
     volumes:
