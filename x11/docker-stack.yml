@@ -23,7 +23,7 @@ services:
       -v /usr/local/bin/docker:/usr/bin/docker
       -v /dev:/dev:shared
       -v /tmp:/tmp
-      registry.rsdecsapps.net/demo/x11:1.2.5'
+      brodintel/x11:1.5.0'
     volumes:
       - /run:/run
     deploy:
