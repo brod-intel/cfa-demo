@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   vmware:
-    image: registry.rsdecsapps.net/demo/vmware-horizon:0.0.1
+    image: brodintel/vmware-horizon:0.0.1
     command: ['vmware-view']
     environment:
       DISPLAY: ":0"
