@@ -23,7 +23,7 @@ services:
       -v /run:/run 
       -v /usr/local/bin/docker:/usr/bin/docker
       -v /dev:/dev:shared
-      registry.rsdecsapps.net/demo/x11:1.2.1'
+      brodintel/x11:1.5.0'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -51,7 +51,7 @@ services:
       --privileged=true 
       -v /run:/run 
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      registry.rsdecsapps.net/demo/pos:0.0.1'
+      brodintel/pos:0.0.1'
     volumes:
       - /var/run:/var/run
     deploy:
