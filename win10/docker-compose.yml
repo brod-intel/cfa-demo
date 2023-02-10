@@ -27,7 +27,7 @@ services:
       -v /run:/run
       -v /dev:/dev
       -v /tmp:/tmp
-      registry.rsdecsapps.net/demo/win10:0.0.5'
+      brodintel/win10:0.0.5'
     volumes:
       - /var/run:/var/run
     deploy:
@@ -36,7 +36,7 @@ services:
       placement:
         constraints: 
           - node.platform.os == linux
-          - engine.labels.graphics.i915 == true
-          - engine.labels.vt_enabled == true
+          # - engine.labels.graphics.i915 == true
+          # - engine.labels.vt_enabled == true
           # - engine.labels.serial_number == 8CC83219S9
           # - node.labels.gpu.available == true
