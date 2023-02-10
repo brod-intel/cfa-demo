@@ -25,7 +25,7 @@ services:
       -v /dev:/dev
       -v /tmp:/tmp
       --label com.docker.stack.namespace=$$(docker container inspect --format "{{index .Config.Labels \"com.docker.stack.namespace\"}}" $${TASK_NAME})
-      registry.rsdecsapps.net/demo/dos:0.0.5'
+      brodintel/dos:0.0.5'
     volumes:
       - /var/run:/var/run
       - /tmp:/tmp
@@ -36,5 +36,5 @@ services:
         constraints: 
           - node.platform.os == linux
           # - engine.labels.graphics.i915 == true
-          - engine.labels.vt_enabled == true
+          # - engine.labels.vt_enabled == true
           # - engine.labels.serial_number == 8CC83219S9
