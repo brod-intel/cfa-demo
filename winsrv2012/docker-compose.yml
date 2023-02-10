@@ -27,7 +27,7 @@ services:
       -v /run:/run
       -v /dev:/dev
       -v /tmp:/tmp
-      registry.rsdecsapps.net/demo/winsrv2012:0.0.5'
+      brodintel/winsrv2012:0.0.5'
     volumes:
       - /var/run:/var/run
     deploy:
