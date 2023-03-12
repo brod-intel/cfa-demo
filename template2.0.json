@@ -265,28 +265,6 @@
 		},    
 		{
 			"type": 3,
-			"title": "Kubernetes (ACE)",
-			"description": "Kubernetes in Docker",
-			"note": "Deploys Kubernetes in Docker.",
-			"categories": [
-				"Zero Linux"
-			],
-			"env": [{
-				"name": "UUID",
-				"label": "Copy the UUID from the adding a Kuberenetes Portainer Enviornment"
-			},{
-				"name": "TOKEN",
-				"label": "Copy the TOKEN from the adding a Kuberenetes Portainer Enviornment"
-			}],
-			"platform": "linux",
-			"logo": "",
-			"repository": {
-				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "ace/docker-compose.yml"
-			}
-		},
-		{
-			"type": 3,
 			"title": "Kubernetes (KinD)",
 			"description": "Kubernetes in Docker",
 			"note": "Deploys Kubernetes in Docker.",
@@ -339,18 +317,6 @@
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "esp/docker-compose.yml"
-			}
-		},
-		{
-			"type": 3,
-			"title": "ACE",
-			"description": "Autonomous Clustering for the Edge.",
-			"note": "Deploys Autonomous Clustering for the Edge.",
-			"platform": "linux",
-			"logo": "",
-			"repository": {
-				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "ace/docker-compose.yml"
 			}
 		},
     {
