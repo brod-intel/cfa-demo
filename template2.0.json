@@ -251,10 +251,10 @@
 			],
 			"env": [{
 				"name": "TOKEN",
-				"label": "OPTIONAL: Add a Portainer Environment "
+				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
 			},{
 				"name": "UUID",
-				"label": "OPTIONAL: Add a Portainer Environment"
+				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_ID.  If not provided one will be auto generated."
 			}],
 			"platform": "linux",
 			"logo": "",
@@ -263,6 +263,28 @@
 				"stackfile": "ace/docker-compose.yml"
 			}
 		},    
+		{
+			"type": 3,
+			"title": "Kubernetes (ACE)",
+			"description": "Kubernetes in Docker",
+			"note": "Deploys Kubernetes in Docker.",
+			"categories": [
+				"Zero Linux"
+			],
+			"env": [{
+				"name": "UUID",
+				"label": "Copy the UUID from the adding a Kuberenetes Portainer Enviornment"
+			},{
+				"name": "TOKEN",
+				"label": "Copy the TOKEN from the adding a Kuberenetes Portainer Enviornment"
+			}],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "ace/docker-compose.yml"
+			}
+		},
 		{
 			"type": 3,
 			"title": "Kubernetes (KinD)",
