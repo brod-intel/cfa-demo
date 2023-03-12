@@ -28,28 +28,6 @@
 				}
 		},
 		{
-			"type": 2,
-			"title": "Autonmous Clustering for the Edge (ACE)",
-			"description": "Deploys ACE for Docker Swarm",
-			"note": "Deploys ACE for Docker Swarm.",
-			"categories": [
-				"Zero Linux"
-			],
-			"env": [{
-				"name": "TOKEN",
-				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
-			},{
-				"name": "UUID",
-				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_ID.  If not provided one will be auto generated."
-			}],
-			"platform": "linux",
-			"logo": "",
-			"repository": {
-				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "ace/docker-compose.yml"
-			}
-		},
-		{
 				"type": 2,
 				"title": "DXO Priority Demo",
 				"description": "Demonstrate how DXO prioritizes workloads",
@@ -217,6 +195,28 @@
 						"url": "https://github.com/brod-intel/cfa-demo",
 						"stackfile": "rsp/docker-stack.yml"
 				}
+		},
+		{
+			"type": 3,
+			"title": "Autonmous Clustering for the Edge (ACE)",
+			"description": "Deploys ACE for Docker Swarm",
+			"note": "Deploys ACE for Docker Swarm.",
+			"categories": [
+				"Zero Linux"
+			],
+			"env": [{
+				"name": "TOKEN",
+				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
+			},{
+				"name": "UUID",
+				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_ID.  If not provided one will be auto generated."
+			}],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "ace/docker-compose.yml"
+			}
 		},
 		{
 			"type": 3,
