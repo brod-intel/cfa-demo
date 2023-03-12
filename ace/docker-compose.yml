@@ -103,7 +103,7 @@ services:
       - core
 
   gluster-security-enabler:
-    image:  ace/console-alpine:1.1
+    image:  brodintel/ace-console-alpine:1.1
     # To enable glusterd network encryption, uncomment the below line
     entrypoint: [sh, -c, "touch /var/lib/glusterd/secure-access"]
     restart: "no"
