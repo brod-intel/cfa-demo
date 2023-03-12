@@ -1,6 +1,8 @@
 version: "3"
 
 volumes:
+  core_volume:
+    driver: local
   docker_app_commands:
     driver: local
   docker_pid_vol:
@@ -14,24 +16,24 @@ volumes:
 
 services:
   core:
-    image: edge/core:1.0
+    image: brodintel/ace-core:1.1
     privileged: true
     restart: "no"
     volumes:
+      - core_volume:/opt
       - /etc/ssl:/etc/ssl
       - /var/lib/app-docker:/var/lib/app-docker
       - /run:/run
 
   dho:
-    image: edge/dho:1.0
-    command: /opt/ace/dho/dho-init.sh
+    image: brodintel/ace-dho:1.1
     privileged: true
     restart: "no"
     volumes:
       - /etc/app-docker:/etc/docker
 
   app-docker:
-    image: edge/app-docker:1.0
+    image: brodintel/ace-app-docker:1.1
     logging:
       driver: "json-file"
       options:
@@ -46,7 +48,7 @@ services:
     ipc: host
     network_mode: host
     # pid: host
-    privileged: true
+    privileged: true  
     restart: always
     userns_mode: host
     volumes:
@@ -64,9 +66,10 @@ services:
       - /run/udev:/run/udev:shared
     depends_on:
       - dho
+      - core
 
   console:
-    image: edge/console-alpine:1.0
+    image: brodintel/ace-console-alpine:1.1
     environment:
       - HTTP_PROXY
       - HTTPS_PROXY
@@ -76,7 +79,7 @@ services:
       # - AUTHORIZED_KEYS=
       # - USERNAME=
       # - PASSWORD=
-      - SYSTEM_DOCKER_SOCK=/opt/system-docker.sock
+      - SYSTEM_DOCKER_SOCK=/aux/system-docker.sock
     ipc: host
     network_mode: host
     pid: host
@@ -88,18 +91,19 @@ services:
       - docker_app_commands:/usr/local
       - docker_pid_vol:/var/run
       - gluster_database_vol:/var/lib/glusterd
-      - /var/run/docker.sock:/opt/system-docker.sock
+      - /var/run/docker.sock:/aux/system-docker.sock
       - /mnt/fakevol:/mnt:shared
       - /mnt/glusterfs/docker-volumes:/var/lib/docker-volumes/gluster:shared
-      - /opt:/opt
+      - core_volume:/opt
       - /var/log:/var/log:shared
       - /:/host
     depends_on:
       - app-docker
       - serf-agent
+      - core
 
   gluster-security-enabler:
-    image:  edge/console-alpine:1.0
+    image:  ace/console-alpine:1.1
     # To enable glusterd network encryption, uncomment the below line
     entrypoint: [sh, -c, "touch /var/lib/glusterd/secure-access"]
     restart: "no"
@@ -110,7 +114,7 @@ services:
       - gluster-rest
 
   gluster-rest:
-    image: edge/glusterfs-rest:7
+    image: brodintel/ace-glusterfs-rest:7.1
     command: ["--certfile","/etc/ssl/glusterrestd.pem" ,"--keyfile", "/etc/ssl/glusterrestd.key", "--ca-certs", "/etc/ssl/glusterfs.ca"]
     environment:
       - PORT=5000
@@ -129,14 +133,15 @@ services:
       - gluster_creds_vol:/etc/ace
       - /var/log/glusterfs:/var/log/glusterfs:shared
       - /dev:/dev
-      - /opt:/opt
+      - core_volume:/opt
       - /etc/ssl:/etc/ssl
     depends_on:
       - app-docker
+      - core
 
   gluster-server:
-    image: edge/glusterfs-rest:7
-    entrypoint: dumb-init glusterd --no-daemon --pid-file=/var/run/glusterd.pid
+    image: brodintel/ace-glusterfs-rest:7.1
+    entrypoint: dumb-init glusterd --no-daemon --pid-file=/var/run/glusterd.pid --log-level=INFO --log-file=/dev/stdout
     restart: unless-stopped
     privileged: true
     ipc: host
@@ -148,7 +153,7 @@ services:
       - docker_pid_vol:/var/run
       - /mnt:/mnt:shared
       - /dev:/dev
-      - /opt:/opt
+      - core_volume:/opt
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /var/log/glusterfs:/var/log/glusterfs:shared
       - /etc/ssl:/etc/ssl
@@ -156,19 +161,20 @@ services:
       - app-docker
       - gluster-rest
       - gluster-security-enabler
+      - core
 
   gluster-plugin-install:
     image: docker:19.03.12
     entrypoint: [sh, -c, /opt/ace/gluster/gluster-plugin-install.sh]
     environment:
       - ACE_BASE_PATH=/opt/ace
-      - PLUGIN_NAME=edge/glusterfs-plugin
+      - PLUGIN_NAME=ace/glusterfs-plugin
       - PLUGIN_TAG=1.0
       - CREDS_DIR=/etc/ace
       - TLS_KEY=/etc/ssl/plugin.key
       - TLS_CERT=/etc/ssl/plugin.pem
       - TLS_CACERT=/etc/ssl/glusterfs.ca
-      - SYSTEM_DOCKER_SOCK=/opt/system-docker.sock
+      - SYSTEM_DOCKER_SOCK=/aux/system-docker.sock
     restart: "no"
     # ipc: host
     # network_mode: host
@@ -177,17 +183,18 @@ services:
     # userns_mode: host
     volumes:
       - docker_pid_vol:/var/run
-      - /var/run/docker.sock:/opt/system-docker.sock
-      - /opt:/opt
+      - /var/run/docker.sock:/aux/system-docker.sock
+      - core_volume:/opt
       - /dev:/dev
       - gluster_creds_vol:/etc/ace
       - /etc/ssl:/etc/ssl
     depends_on:
       - app-docker
       - gluster-rest
+      - core
 
   gluster-connect:
-    image: edge/console-alpine:1.0
+    image: brodintel/ace-console-alpine:1.1
     entrypoint: [sh, -c, /opt/ace/gluster/gluster-connect.sh]
     command: []
     environment:
@@ -201,15 +208,16 @@ services:
     # privileged: true
     # userns_mode: host
     volumes:
-      - /opt:/opt
+      - core_volume:/opt
       - gluster_creds_vol:/etc/ace
     depends_on:
       - app-docker
       - serf-agent
+      - core
 
   serf-agent:
-    image: edge/serf:0.8.4
-    entrypoint: /opt/ace/serf/docker-entrypoint.sh
+    image: brodintel/ace-serf:0.8.4_1
+    entrypoint: /opt/ace/serf/init.sh
     environment:
       - ACE_BASE_PATH=/opt/ace
       - GLUSTER_MOUNT_PATH=/mnt
@@ -220,7 +228,7 @@ services:
       - MANAGER=manager
       - WORKER=worker
       - DUMB_INIT_DEBUG=1
-      - PATH=/usr/local/bin:/usr/app-local/bin:/opt/ace/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+      - PATH=/usr/local/bin:/usr/app-local/bin:/core/ace/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
       - SERF_BIND_PORT=7945
       - SERF_CONFIG_DIR=/opt/ace/serf/config
       - SERF_DATA_DIR=/opt/ace/serf/data
@@ -235,8 +243,9 @@ services:
       - MEMBER_REBOOT_TIME_IN_SECONDS=250
       - SWARM_RESTORE_TIME_IN_SECONDS=60
       - LOG_LEVEL=1
-      - SYSTEM_DOCKER_SOCK=/opt/system-docker.sock
+      - SYSTEM_DOCKER_SOCK=/aux/system-docker.sock
       - UUID=${UUID}
+      - TOKEN=${TOKEN}
     command: agent -keyring-file /etc/ssl/ace/keyring.json -tags-file=/opt/ace/serf/data/tags.json # -log-level=debug # -rejoin -snapshot /opt/ace/serf/data/snapshot
     restart: unless-stopped
     ipc: host
@@ -249,7 +258,7 @@ services:
       - docker_app_commands:/usr/app-local
       - docker_pid_vol:/var/run
       - serf_vol:/serf-volume
-      - /var/run/docker.sock:/opt/system-docker.sock
+      - /var/run/docker.sock:/aux/system-docker.sock
       - gluster_creds_vol:/etc/ace
       - /mnt:/mnt:shared
       - /mnt/glusterfs/docker-volumes:/var/lib/docker-volumes/gluster:shared
@@ -257,15 +266,16 @@ services:
       #  Uncomment the below line after keys are added
       #- /etc/ssl/glusterfs.ca:/etc/ssl/certs/ace.crt
       - /etc/ssl:/etc/ssl
-      - /opt/stacks/:/opt/stacks/
+      - core_volume:/core
       - /var/log/ace:/var/log
       - /dev/tty2:/dev/tty0
     depends_on:
       - app-docker
       - gluster-server
+      - core
 
   dxo:
-    image: edge/dxo:1.0
+    image: brodintel/ace-dxo:1.1
     logging:
       driver: "json-file"
       options:
@@ -276,7 +286,7 @@ services:
       - HTTPS_PROXY
       - NO_PROXY
       - PATH=/usr/local/bin:/usr/app-local/bin:/opt/ace/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
-      - SYSTEM_DOCKER_SOCK=/opt/system-docker.sock
+      - SYSTEM_DOCKER_SOCK=/aux/system-docker.sock
       - DXO_CONFIG_PATH=/opt/ace/dxo/conf/dxo.yml
       - CONFIG_FILEPATHS=/opt/ace/dxo/appflows,/host/mnt/clusterfs/dxo/appflows
       # - WATCHED_PATHS=/host/tmp
@@ -304,10 +314,11 @@ services:
       - gluster_database_vol:/var/lib/glusterd
       - /mnt/clusterfs/dxo/appflows:/cfsappflows
       - /mnt/fakevol:/mnt:shared
-      - /opt:/opt
+      - core_volume:/opt
       - /var/log:/var/log:shared
-      - /var/run/docker.sock:/opt/system-docker.sock
+      - /var/run/docker.sock:/aux/system-docker.sock
       - /:/host
     depends_on:
       - app-docker
       - serf-agent
+      - core

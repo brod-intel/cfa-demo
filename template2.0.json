@@ -36,10 +36,10 @@
 				"Zero Linux"
 			],
 			"env": [{
-				"name": "EDGE_KEY",
+				"name": "TOKEN",
 				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
 			},{
-				"name": "EDGE_ID",
+				"name": "UUID",
 				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_ID.  If not provided one will be auto generated."
 			}],
 			"platform": "linux",
