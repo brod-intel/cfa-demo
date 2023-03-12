@@ -251,10 +251,10 @@
 			],
 			"env": [{
 				"name": "TOKEN",
-				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
+				"label": "OPTIONAL: Add a Portainer Environment "
 			},{
 				"name": "UUID",
-				"label": "OPTIONAL: Add a Portainer Environment and Copy EDGE_ID.  If not provided one will be auto generated."
+				"label": "OPTIONAL: Add a Portainer Environment"
 			}],
 			"platform": "linux",
 			"logo": "",
