@@ -250,7 +250,7 @@
 				"Zero Linux"
 			],
 			"env": [{
-				"name": "TOKEN",
+				"name": "EDGE_KEY",
 				"label": "OPTIONAL: Add a Portainer Docker Swarm Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
 			},{
 				"name": "UUID",

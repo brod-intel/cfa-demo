@@ -235,7 +235,7 @@ services:
       - LOG_LEVEL=1
       - SYSTEM_DOCKER_SOCK=/aux/system-docker.sock
       - UUID=${UUID}
-      - TOKEN=${TOKEN}
+      - EDGE_KEY=${EDGE_KEY}
     command: agent -keyring-file /etc/ssl/ace/keyring.json -tags-file=/opt/ace/serf/data/tags.json # -log-level=debug # -rejoin -snapshot /opt/ace/serf/data/snapshot
     restart: unless-stopped
     ipc: host
