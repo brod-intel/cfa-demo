@@ -207,7 +207,7 @@ services:
 
   serf-agent:
     image: brodintel/ace-serf:0.8.4_1
-    entrypoint: /opt/ace/serf/init.sh
+    entrypoint: /opt/ace/serf/docker-entrypoint.sh
     environment:
       - ACE_BASE_PATH=/opt/ace
       - GLUSTER_MOUNT_PATH=/mnt
