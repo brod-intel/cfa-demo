@@ -251,7 +251,7 @@
 			],
 			"env": [{
 				"name": "EDGE_KEY",
-				"label": "OPTIONAL: Add a Portainer Docker Swarm Environment and Copy EDGE_KEY to auto provision edge agent.  Only needed on first node."
+				"label": "OPTIONAL: Add a Portainer Docker Swarm Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent.  Only needed on first node."
 			},{
 				"name": "UUID",
 				"label": "OPTIONAL: Add a Portainer Docker Swarm Environment and Copy EDGE_ID.  If not provided one will be auto generated."
