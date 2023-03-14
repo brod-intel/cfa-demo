@@ -22,7 +22,7 @@ services:
     restart: "no"
 
   rngd:
-    image: ace/rngd:1.1
+    image: brodintel/ace-rngd:1.1
     privileged: true
     restart: always
 
