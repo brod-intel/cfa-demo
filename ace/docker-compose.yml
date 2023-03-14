@@ -21,6 +21,11 @@ services:
     command: ["exit"]
     restart: "no"
 
+  rngd:
+    image: ace/rngd:1.1
+    privileged: true
+    restart: always
+
   core:
     image: brodintel/ace-core:1.1
     privileged: true
