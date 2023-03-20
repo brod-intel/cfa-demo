@@ -1,6 +1,6 @@
 ---
 
-# Copyright (C) 2019 Intel Corporation
+# Copyright (C) 2023 Intel Corporation
 # SPDX-License-Identifier: BSD-3-Clause
 
 version: '3'
@@ -11,7 +11,7 @@ networks:
 
 services:
   core:
-    image: builder-core
+    image: brodintel/builder-core
     environment:
       - BUILDER_PATH=${PWD}
       - PATH=${PWD}:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -44,7 +44,7 @@ services:
         max-size: "1m"
 
   web:
-    image: builder-web
+    image: brodintel/builder-web
     restart: always
     environment:
       - CN=edgebuilder.local
@@ -87,7 +87,7 @@ services:
         max-size: "1m"
 
   certbot:
-    image: builder-certbot
+    image: brodintel/builder-certbot
     restart: on-failure
     environment:
       - http_proxy=${http_proxy:-}
@@ -115,7 +115,7 @@ services:
         max-size: "1m"
 
   dnsmasq:
-    image: builder-dnsmasq
+    image: brodintel/builder-dnsmasq
     restart: always
     environment:
       - http_proxy=${http_proxy:-}
@@ -179,7 +179,7 @@ services:
         max-size: "1m"
 
   squid:
-    image: builder-squid
+    image: brodintel/builder-squid
     restart: always
     environment:
       - CN=squid.local
@@ -211,7 +211,7 @@ services:
         max-size: "1m"
 
   mirror:
-    image: builder-gitea
+    image: brodintel/builder-gitea
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -246,7 +246,7 @@ services:
         max-size: "1m"
 
   smb:
-    image: builder-smb
+    image: brodintel/builder-smb
     restart: always
     environment:
       - http_proxy=${http_proxy:-}
@@ -272,7 +272,7 @@ services:
         max-size: "1m"
 
   dyn-profile:
-    image: builder-dyn-profile
+    image: brodintel/builder-dyn-profile
     ports:
       - 8580:8080
     depends_on:
