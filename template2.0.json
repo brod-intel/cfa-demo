@@ -464,62 +464,99 @@
         "operating-system"
 			],
 			"env": [{
-				"name": "username",
-        "label": "Root Username",
-				"description": "OPTIONAL: Root Username for operating system.",
-        "default": "sys-admin"
-			},{
-				"name": "password",
-        "label": "Root Password",
-				"description": "OPTIONAL: Root Password for operating system.",
-        "default": "P@ssw0rd!"
-			},{
-				"name": "epassword",
-        "label": "Encrypted Password",
-				"description": "OPTIONAL: Root encrypted password for operating system."
-			},{
-				"name": "release",
-        "label": "Deployment release",
-				"description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
-        "select": [
-          {
-            "text": "Production Release",
-            "value": "prod",
-            "default": true
-          },
-          {
-            "text": "Development Releasse",
-            "value": "dev"
-          }
-        ]
-			},{
-				"name": "edge_key",
-        "label": "Portainer Edge Agent Key",
-				"description": "OPTIONAL: Add a Portainer Docker Standalone Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent."
-			},{
-				"name": "kernel_presets",
-        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Zero_Linux/bootstrap.sh httppath=/files/Zero_Linux diskencrypt=false arch=amd64",
-				"preset": true
-			},{
-				"name": "debug_mode",
-        "label": "Debug Mode",
-				"description": "When set to true a more verbose installation output.",
-        "select": [
-          {
-            "text": "False",
-            "value": "false",
-            "default": true
-          },
-          {
-            "text": "True",
-            "value": "true"
-          }
-        ]
-			}],
+          "name": "username",
+          "label": "Root Username",
+          "description": "OPTIONAL: Root Username for operating system.",
+          "default": "sys-admin"
+        },{
+          "name": "password",
+          "label": "Root Password",
+          "description": "OPTIONAL: Root Password for operating system.",
+          "default": "P@ssw0rd!"
+        },{
+          "name": "epassword",
+          "label": "Encrypted Password",
+          "description": "OPTIONAL: Root encrypted password for operating system."
+        },{
+          "name": "release",
+          "label": "Deployment release",
+          "description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
+          "select": [
+            {
+              "text": "Production Release",
+              "value": "prod",
+              "default": true
+            },
+            {
+              "text": "Development Releasse",
+              "value": "dev"
+            }
+          ]
+        },{
+          "name": "edge_key",
+          "label": "Portainer Edge Agent Key",
+          "description": "OPTIONAL: Add a Portainer Docker Standalone Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent."
+        },{
+          "name": "kernel_presets",
+          "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Zero_Linux/bootstrap.sh httppath=/files/Zero_Linux diskencrypt=false arch=amd64",
+          "preset": true
+        },{
+          "name": "debug_mode",
+          "label": "Debug Mode",
+          "description": "When set to true a more verbose installation output.",
+          "select": [
+            {
+              "text": "False",
+              "value": "false",
+              "default": true
+            },
+            {
+              "text": "True",
+              "value": "true"
+            }
+          ]
+        }
+      ],
 			"platform": "linux",
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "esp-profiles/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "Update Kernel Image",
+			"description": "Deploys Kernel Image to Ubuntu",
+			"note": "Deploys Kernel Image to Ubuntu",
+      "logo": "",
+			"categories": [
+				"kernel-update"
+			],
+			"env": [{
+				"name": "kernel_image",
+        "label": "Kernel Image",
+				"description": "Get the aptitude package for the kernel to install",
+        "default": "linux-generic"
+			},{
+        "name": "reboot",
+        "label": "Reboot System",
+        "description": "Reboot system after installation of linux kernel.",
+        "select": [
+          {
+            "text": "No",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "Yes",
+            "value": "true"
+          }
+        ]
+      }],
+			"platform": "linux",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "ubuntu-kernel/docker-compose.yml"
 			}
 		},
     {

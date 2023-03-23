@@ -1,0 +1,22 @@
+---
+
+# Copyright (C) 2023 Intel Corporation
+# SPDX-License-Identifier: BSD-3-Clause
+
+version: '3'
+
+services:
+  deploy:
+    image: brodintel/kernel-update:v0.1
+    environment:
+      - KERNEL_IMAGE=${kernel_image}
+      - REBOOT=${reboot}
+    ipc: host
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: "no"
+    userns_mode: host
+    volumes:
+      - /dev:/dev:shared
+      - /:/host
