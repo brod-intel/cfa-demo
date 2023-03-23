@@ -324,6 +324,58 @@
 			"title": "Ubuntu 20.04 Slim Install",
 			"description": "Deploys Ubuntu OS Using Intel ESP",
 			"note": "Deploys Ubuntu OS Using Intel ESP",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/ubuntu.png",
+			"categories": [
+				"ESP Profile",
+        "operating-system"
+			],
+			"env": [{
+				"name": "username",
+        "label": "Root Username",
+				"description": "OPTIONAL: Root Username for operating system.",
+        "default": "sys-admin"
+			},{
+				"name": "password",
+        "label": "Root Password",
+				"description": "OPTIONAL: Root Password for operating system.",
+        "default": "P@ssw0rd!"
+			},{
+				"name": "epassword",
+        "label": "Encrypted Password",
+				"description": "OPTIONAL: Root encrypted password for operating system."
+			},{
+				"name": "release",
+        "label": "Deployment release",
+				"description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
+        "select": [
+          {
+            "text": "Production Release",
+            "value": "prod",
+            "default": true
+          },
+          {
+            "text": "Development Releasse",
+            "value": "dev"
+          }
+        ]
+			},{
+				"name": "kernel_presets",
+        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_base httppath=/files/Ubuntu_22.04_Slim diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
+				"preset": true
+			}],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "esp-profiles/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "Ubuntu 20.04 Slim w/ Portainer Install",
+			"description": "Deploys Ubuntu OS w/ Portainer Using Intel ESP",
+			"note": "Deploys Ubuntu OS w/ Portainer Using Intel ESP",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/ubuntu.png",
 			"categories": [
 				"ESP Profile",
         "operating-system"
@@ -363,7 +415,7 @@
 				"description": "OPTIONAL: Add a Portainer Docker Standalone Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent."
 			},{
 				"name": "kernel_presets",
-        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_base httppath=/files/Ubuntu_22.04_Slim diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
+        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer_base httppath=/files/Ubuntu_22.04_Slim_Portainer diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
 				"preset": true
 			}],
 			"platform": "linux",
@@ -372,7 +424,7 @@
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "esp-profiles/docker-compose.yml"
 			}
-		},   
+		},
     {
       "type": 1,
       "title": "Registry",
