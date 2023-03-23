@@ -362,9 +362,23 @@
 				"name": "kernel_presets",
         "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_base httppath=/files/Ubuntu_22.04_Slim diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
 				"preset": true
+			},{
+				"name": "debug",
+        "label": "Debug Mode",
+				"description": "When set to true a more verbose installation output.",
+        "select": [
+          {
+            "text": "False",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "True",
+            "value": "true"
+          }
+        ]
 			}],
 			"platform": "linux",
-			"logo": "",
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "esp-profiles/docker-compose.yml"
@@ -417,9 +431,23 @@
 				"name": "kernel_presets",
         "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer_base httppath=/files/Ubuntu_22.04_Slim_Portainer diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
 				"preset": true
+			},{
+				"name": "debug",
+        "label": "Debug Mode",
+				"description": "When set to true a more verbose installation output.",
+        "select": [
+          {
+            "text": "False",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "True",
+            "value": "true"
+          }
+        ]
 			}],
 			"platform": "linux",
-			"logo": "",
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "esp-profiles/docker-compose.yml"
