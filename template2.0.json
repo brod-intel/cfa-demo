@@ -559,6 +559,41 @@
 				"stackfile": "ubuntu-kernel/docker-compose.yml"
 			}
 		},
+		{
+			"type": 3,
+			"title": "Update Firmware",
+			"description": "Deploys Firmware to motherboard",
+			"note": "Deploys Firmware to motherboard",
+      "logo": "",
+			"categories": [
+				"firmware-update"
+			],
+			"env": [{
+				"name": "FW_IMAGE",
+        "label": "Firmware Image",
+				"description": "Provide the URL to the FW Image"
+			},{
+        "name": "reboot",
+        "label": "Reboot System",
+        "description": "Reboot system after installation of linux kernel.",
+        "select": [
+          {
+            "text": "No",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "Yes",
+            "value": "true"
+          }
+        ]
+      }],
+			"platform": "linux",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "ubuntu-kernel/docker-compose.yml"
+			}
+		},
     {
       "type": 1,
       "title": "Registry",
