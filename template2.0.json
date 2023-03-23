@@ -363,7 +363,7 @@
         "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_base httppath=/files/Ubuntu_22.04_Slim diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
 				"preset": true
 			},{
-				"name": "debug",
+				"name": "debug_mode",
         "label": "Debug Mode",
 				"description": "When set to true a more verbose installation output.",
         "select": [
@@ -432,7 +432,7 @@
         "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer_base httppath=/files/Ubuntu_22.04_Slim_Portainer diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
 				"preset": true
 			},{
-				"name": "debug",
+				"name": "debug_mode",
         "label": "Debug Mode",
 				"description": "When set to true a more verbose installation output.",
         "select": [
