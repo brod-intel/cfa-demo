@@ -1,0 +1,2 @@
+wpid=$(ps aux | grep /opt/bootstrap/init | grep -v tini | grep -v grep | awk '{print $1}' | head -n 1)
+strace -p ${wpid} -s9999 2>&1 |  grep -o -P '(?<=iov_base\=\").*(?=\", iov_len\=[0-9]*}, )'
