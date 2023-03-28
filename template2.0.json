@@ -250,7 +250,7 @@
 			"platform": "linux",
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "x11/docker-compose.yml"
+				"stackfile": "x11/docker-compose-any.yml"
 			}
 		},
 		{
