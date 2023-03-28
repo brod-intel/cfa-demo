@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  core:
+    image: brodintel/x11:1.5.0
+    environment:
+      - DISPLAY
+      - VNC=true
+    ipc: host
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: always
+    userns_mode: host
+    volumes:
+      - /dev:/dev:shared
+      - /var/log:/var/log 
+      - /run/:/run/
+      - /tmp/:/tmp/
+      - /lib/modules:/lib/modules
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"

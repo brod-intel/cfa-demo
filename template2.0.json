@@ -198,7 +198,7 @@
 		},
 		{
 			"type": 3,
-			"title": "Linux Console",
+			"title": "Linux Console for Zero Linux",
 			"description": "Deploys a ZOS Console to manage the system.",
 			"note": "Deploys a ZOS Console to manage the system.",
 			"categories": [
@@ -213,7 +213,7 @@
 		},
 		{
 			"type": 3,
-			"title": "Linux SSH Console",
+			"title": "Linux SSH Console for Zero Linux",
 			"description": "Deploys a ZOS SSH Console to manage the system.",
 			"note": "Deploys a ZOS SSH Console to manage the system.",
 			"categories": [
@@ -228,14 +228,26 @@
 		},
 		{
 			"type": 3,
-			"title": "X11 Console",
+			"title": "X11 Console for Zero Linux",
 			"description": "Deploys a X11 Console to manage the system.",
 			"note": "Deploys a X11 Console to manage the system.",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
 			"categories": [
 				"Zero Linux"
 			],
 			"platform": "linux",
-			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "x11/docker-compose.yml"
+			}
+		},
+		{
+			"type": 3,
+			"title": "X11 Console for Any Distro",
+			"description": "Deploys a X11 Console to manage the system.",
+			"note": "Deploys a X11 Console to manage the system.",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
+			"platform": "linux",
 			"repository": {
 				"url": "https://github.com/brod-intel/cfa-demo",
 				"stackfile": "x11/docker-compose.yml"
