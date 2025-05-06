@@ -13,7 +13,6 @@ services:
     restart: always
     userns_mode: host
     volumes:
-      - /dev:/dev:shared
       - /var/log:/var/log 
       - /run/:/run/
       - /tmp/:/tmp/
