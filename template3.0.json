@@ -2,39 +2,42 @@
   "version": "3",
   "templates": [
     {
-			"type": 3,
-			"title": "X11 Console for Any Distro",
-			"description": "Deploys a X11 Console to manage the system.",
-			"note": "Deploys a X11 Console to manage the system.",
+      "type": 3,
+      "title": "X11 Console for Any Distro",
+      "description": "Deploys a X11 Console to manage the system.",
+      "note": "Deploys a X11 Console to manage the system.",
+      "categories": [
+        "Boot Peak"
+      ],
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/X11.svg/1024px-X11.svg.png",
-			"platform": "linux",
-			"repository": {
-				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "x11/docker-compose-any.yml"
-			}
-		},
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "x11/docker-compose-any.yml"
+      }
+    },
     {
-			"type": 3,
-			"title": "Kubernetes (KinD)",
-			"description": "Kubernetes in Docker",
-			"note": "Deploys Kubernetes in Docker.",
-			"categories": [
-				"Zero Linux"
-			],
-			"env": [{
-				"name": "UUID",
-				"label": "Copy the UUID from the adding a Kuberenetes Portainer Enviornment"
-			},{
-				"name": "TOKEN",
-				"label": "Copy the TOKEN from the adding a Kuberenetes Portainer Enviornment"
-			}],
-			"platform": "linux",
-			"logo": "",
-			"repository": {
-				"url": "https://github.com/brod-intel/cfa-demo",
-				"stackfile": "kind/docker-compose.yml"
-			}
-		},
+      "type": 3,
+      "title": "Kubernetes (KinD)",
+      "description": "Kubernetes in Docker",
+      "note": "Deploys Kubernetes in Docker.",
+      "categories": [
+        "Boot Peak"
+      ],
+      "env": [{
+        "name": "UUID",
+        "label": "Copy the UUID from the adding a Kuberenetes Portainer Enviornment"
+      },{
+        "name": "TOKEN",
+        "label": "Copy the TOKEN from the adding a Kuberenetes Portainer Enviornment"
+      }],
+      "platform": "linux",
+      "logo": "",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "kind/docker-compose.yml"
+      }
+    },
     {
       "id": 1,
       "type": 1,
