@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  core:
+    image: linuxkit/getty:v0.8
+    environment:
+      - PATH=${PWD}:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+      - http_proxy=${http_proxy:-}
+      - https_proxy=${https_proxy:-}
+      - ftp_proxy=${ftp_proxy:-}
+      - no_proxy=${no_proxy:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+      - FTP_PROXY=${FTP_PROXY:-}
+      - NO_PROXY=${NO_PROXY:-}
+    ipc: host
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: always
+    userns_mode: host
+    volumes:
+      - /:/host
+      - /etc/issue:/etc/motd
+      - /etc/profile.d:/etc/profile.d
+      - /etc/getty.shadow:/etc/shadow
+      - /etc/sshd.passwd:/etc/passwd
+      - /etc/sshd.group:/etc/group
+      - /etc/hostname:/etc/hostname
+      - /home:/home
+      - /run:/run
+      - /tmp:/tmp
+      - /var/log:/var/log
+    cap_add:
+      - ALL
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"

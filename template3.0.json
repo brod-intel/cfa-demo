@@ -350,6 +350,21 @@
         "stackfile": "ubuntu-kernel/docker-compose.yml"
       }
     },
+		{
+			"type": 3,
+			"title": "Linux Console for Boot Peak",
+			"description": "Deploys a Boot Peak Console to manage the system.",
+			"note": "Deploys a Boot Peak Console to manage the system.",
+			"categories": [
+				"Boot Peak"
+			],
+			"platform": "linux",
+			"logo": "",
+			"repository": {
+				"url": "https://github.com/brod-intel/cfa-demo",
+				"stackfile": "boot-peak/console/docker-compose.yml"
+			}
+		},
     {
       "id": 1,
       "type": 1,
