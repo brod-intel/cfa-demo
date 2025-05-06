@@ -39,6 +39,318 @@
       }
     },
     {
+      "type": 3,
+      "title": "WOK",
+      "description": "Headless VM Management for KVM.",
+      "note": "Deploys Headless VM Management for KVM.",
+      "categories": [
+        "Boot Peak"
+      ],
+      "env": [{
+        "name": "USERNAME",
+        "label": "WOK Admin Password"
+      },{
+        "name": "HASHPASS",
+        "label": "HASH Password: mkpasswd -m sha-512"
+      }],
+      "platform": "linux",
+      "logo": "",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "wok/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "ESP",
+      "description": "Edge Software Provisionor.",
+      "note": "Deploys Edge Software Provisionor.",
+      "categories": [
+        "Boot Peak"
+      ],
+      "platform": "linux",
+      "logo": "",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "esp/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Ubuntu 20.04 Slim Install",
+      "description": "Deploys Ubuntu OS Using Intel ESP",
+      "note": "Deploys Ubuntu OS Using Intel ESP",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/ubuntu.png",
+      "categories": [
+        "ESP Profile",
+        "operating-system"
+      ],
+      "env": [{
+        "name": "username",
+        "label": "Root Username",
+        "description": "OPTIONAL: Root Username for operating system.",
+        "default": "sys-admin"
+      },{
+        "name": "password",
+        "label": "Root Password",
+        "description": "OPTIONAL: Root Password for operating system.",
+        "default": "P@ssw0rd!"
+      },{
+        "name": "epassword",
+        "label": "Encrypted Password",
+        "description": "OPTIONAL: Root encrypted password for operating system."
+      },{
+        "name": "release",
+        "label": "Deployment release",
+        "description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
+        "select": [
+          {
+            "text": "Production Release",
+            "value": "prod",
+            "default": true
+          },
+          {
+            "text": "Development Releasse",
+            "value": "dev"
+          }
+        ]
+      },{
+        "name": "kernel_presets",
+        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_base httppath=/files/Ubuntu_22.04_Slim diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
+        "preset": true
+      },{
+        "name": "debug_mode",
+        "label": "Debug Mode",
+        "description": "When set to true a more verbose installation output.",
+        "select": [
+          {
+            "text": "False",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "True",
+            "value": "true"
+          }
+        ]
+      }],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "esp-profiles/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Ubuntu 20.04 Slim w/ Portainer Install",
+      "description": "Deploys Ubuntu OS w/ Portainer Using Intel ESP",
+      "note": "Deploys Ubuntu OS w/ Portainer Using Intel ESP",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/ubuntu.png",
+      "categories": [
+        "ESP Profile",
+        "operating-system"
+      ],
+      "env": [{
+        "name": "username",
+        "label": "Root Username",
+        "description": "OPTIONAL: Root Username for operating system.",
+        "default": "sys-admin"
+      },{
+        "name": "password",
+        "label": "Root Password",
+        "description": "OPTIONAL: Root Password for operating system.",
+        "default": "P@ssw0rd!"
+      },{
+        "name": "epassword",
+        "label": "Encrypted Password",
+        "description": "OPTIONAL: Root encrypted password for operating system."
+      },{
+        "name": "release",
+        "label": "Deployment release",
+        "description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
+        "select": [
+          {
+            "text": "Production Release",
+            "value": "prod",
+            "default": true
+          },
+          {
+            "text": "Development Releasse",
+            "value": "dev"
+          }
+        ]
+      },{
+        "name": "edge_key",
+        "label": "Portainer Edge Agent Key",
+        "description": "OPTIONAL: Add a Portainer Docker Standalone Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent."
+      },{
+        "name": "kernel_presets",
+        "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer/bootstrap.sh basebranch=http://192.168.20.216/profile/Ubuntu_22.04_Slim_Portainer_base httppath=/files/Ubuntu_22.04_Slim_Portainer diskencrypt=false ubuntuversion=jammy arch=amd64 network=bridged",
+        "preset": true
+      },{
+        "name": "debug_mode",
+        "label": "Debug Mode",
+        "description": "When set to true a more verbose installation output.",
+        "select": [
+          {
+            "text": "False",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "True",
+            "value": "true"
+          }
+        ]
+      }],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "esp-profiles/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Zero Linux Install",
+      "description": "Deploys Zero Linux Using Intel ESP",
+      "note": "Deploys Zero Linux Using Intel ESP",
+      "logo": "",
+      "categories": [
+        "ESP Profile",
+        "operating-system"
+      ],
+      "env": [{
+          "name": "username",
+          "label": "Root Username",
+          "description": "OPTIONAL: Root Username for operating system.",
+          "default": "sys-admin"
+        },{
+          "name": "password",
+          "label": "Root Password",
+          "description": "OPTIONAL: Root Password for operating system.",
+          "default": "P@ssw0rd!"
+        },{
+          "name": "epassword",
+          "label": "Encrypted Password",
+          "description": "OPTIONAL: Root encrypted password for operating system."
+        },{
+          "name": "release",
+          "label": "Deployment release",
+          "description": "Set the deployment release. Prod - system will poweroff when completed. Dev - system will reboot when completed.",
+          "select": [
+            {
+              "text": "Production Release",
+              "value": "prod",
+              "default": true
+            },
+            {
+              "text": "Development Releasse",
+              "value": "dev"
+            }
+          ]
+        },{
+          "name": "edge_key",
+          "label": "Portainer Edge Agent Key",
+          "description": "OPTIONAL: Add a Portainer Docker Standalone Environment and Copy The Join Token or EDGE_KEY to auto provision edge agent."
+        },{
+          "name": "kernel_presets",
+          "default": "httpserver=192.168.20.216 bootstrap=http://192.168.20.216/profile/Zero_Linux/bootstrap.sh httppath=/files/Zero_Linux diskencrypt=false arch=amd64",
+          "preset": true
+        },{
+          "name": "debug_mode",
+          "label": "Debug Mode",
+          "description": "When set to true a more verbose installation output.",
+          "select": [
+            {
+              "text": "False",
+              "value": "false",
+              "default": true
+            },
+            {
+              "text": "True",
+              "value": "true"
+            }
+          ]
+        }
+      ],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "esp-profiles/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Update Kernel Image",
+      "description": "Deploys Kernel Image to Ubuntu",
+      "note": "Deploys Kernel Image to Ubuntu",
+      "logo": "",
+      "categories": [
+        "kernel-update"
+      ],
+      "env": [{
+        "name": "kernel_image",
+        "label": "Kernel Image",
+        "description": "Get the aptitude package for the kernel to install",
+        "default": "linux-generic"
+      },{
+        "name": "reboot",
+        "label": "Reboot System",
+        "description": "Reboot system after installation of linux kernel.",
+        "select": [
+          {
+            "text": "No",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "Yes",
+            "value": "true"
+          }
+        ]
+      }],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "ubuntu-kernel/docker-compose.yml"
+      }
+    },
+    {
+      "type": 3,
+      "title": "Update Firmware",
+      "description": "Deploys Firmware to motherboard",
+      "note": "Deploys Firmware to motherboard",
+      "logo": "",
+      "categories": [
+        "firmware-update"
+      ],
+      "env": [{
+        "name": "FW_IMAGE",
+        "label": "Firmware Image",
+        "description": "Provide the URL to the FW Image"
+      },{
+        "name": "reboot",
+        "label": "Reboot System",
+        "description": "Reboot system after installation of linux kernel.",
+        "select": [
+          {
+            "text": "No",
+            "value": "false",
+            "default": true
+          },
+          {
+            "text": "Yes",
+            "value": "true"
+          }
+        ]
+      }],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/brod-intel/cfa-demo",
+        "stackfile": "ubuntu-kernel/docker-compose.yml"
+      }
+    },
+    {
       "id": 1,
       "type": 1,
       "title": "Registry",
